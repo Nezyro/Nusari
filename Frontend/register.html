@@ -1,0 +1,149 @@
+<!-- frontend/register.html -->
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nusari - Registro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body class="bg-gray-900 text-white overflow-x-hidden">
+    <!-- Barra superior -->
+    <nav class="bg-gray-800 shadow sticky top-0 z-50 w-full">
+      <div class="max-w-screen-xl mx-auto flex items-center h-16 px-4 w-full overflow-visible flex-nowrap gap-4">
+        <!-- Logo -->
+        <div class="w-32">
+          <a href="/" class="text-2xl font-bold text-teal-400 whitespace-nowrap hover:text-teal-300 transition-colors duration-300">Nusari</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <main class="min-h-screen flex items-center justify-center p-4">
+      <div class="max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-lg shadow-lg">
+        <div>
+          <h2 class="text-3xl font-bold text-center text-teal-400">Crear Cuenta</h2>
+          <p class="mt-2 text-center text-gray-400">
+            ¿Ya tienes una cuenta?
+            <a href="/login.html" class="text-teal-400 hover:text-teal-300 transition-colors duration-300">
+              Inicia sesión
+            </a>
+          </p>
+        </div>
+
+        <form id="registerForm" class="mt-8 space-y-6">
+          <div class="space-y-4">
+            <div>
+              <label for="username" class="block text-sm font-medium text-gray-300">Nombre de usuario</label>
+              <input id="username" name="username" type="text" required
+                class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
+            </div>
+
+            <div>
+              <label for="email" class="block text-sm font-medium text-gray-300">Correo electrónico</label>
+              <input id="email" name="email" type="email" required
+                class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
+            </div>
+
+            <div>
+              <label for="password" class="block text-sm font-medium text-gray-300">Contraseña</label>
+              <input id="password" name="password" type="password" required
+                class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
+            </div>
+
+            <div>
+              <label for="confirmPassword" class="block text-sm font-medium text-gray-300">Confirmar contraseña</label>
+              <input id="confirmPassword" name="confirmPassword" type="password" required
+                class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
+            </div>
+          </div>
+
+          <div class="flex items-center">
+            <input id="terms" name="terms" type="checkbox" required
+              class="h-4 w-4 text-teal-400 focus:ring-teal-400 border-gray-600 rounded bg-gray-700" />
+            <label for="terms" class="ml-2 block text-sm text-gray-300">
+              Acepto los
+              <a href="/terms" class="text-teal-400 hover:text-teal-300 transition-colors duration-300">términos y condiciones</a>
+            </label>
+          </div>
+
+          <div>
+            <button type="submit"
+              class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 focus:ring-offset-gray-800 transition-colors duration-300">
+              Registrarse
+            </button>
+          </div>
+        </form>
+
+        <div class="mt-6">
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <div class="w-full border-t border-gray-600"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+              <span class="px-2 bg-gray-800 text-gray-400">O regístrate con</span>
+            </div>
+          </div>
+
+          <div class="mt-6 grid grid-cols-2 gap-3">
+            <button type="button"
+              class="w-full inline-flex justify-center py-2 px-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 text-sm font-medium text-gray-300 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 focus:ring-offset-gray-800 transition-colors duration-300">
+              <i class="fab fa-google mr-2"></i>
+              Google
+            </button>
+            <button type="button"
+              class="w-full inline-flex justify-center py-2 px-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 text-sm font-medium text-gray-300 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 focus:ring-offset-gray-800 transition-colors duration-300">
+              <i class="fab fa-github mr-2"></i>
+              GitHub
+            </button>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      const registerForm = document.getElementById('registerForm');
+
+      registerForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+          alert('Las contraseñas no coinciden');
+          return;
+        }
+
+        const formData = {
+          username: document.getElementById('username').value,
+          email: document.getElementById('email').value,
+          password: password
+        };
+
+        try {
+          const response = await fetch('http://localhost:3000/api/auth/register', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(formData)
+          });
+
+          if (response.ok) {
+            const data = await response.json();
+            localStorage.setItem('token', data.token);
+            window.location.href = '/';
+          } else {
+            throw new Error('Error al registrarse');
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Error al registrarse. Por favor, inténtalo de nuevo.');
+        }
+      });
+    </script>
+  </body>
+</html>

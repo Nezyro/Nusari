@@ -1,0 +1,65 @@
+<!-- frontend/index.html -->
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nusari - Inicio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="bg-gray-900 text-white overflow-x-hidden">
+    <!-- Barra superior -->
+    <nav class="bg-gray-800 shadow sticky top-0 z-50 w-full">
+      <div class="max-w-screen-xl mx-auto flex items-center h-16 px-4 w-full overflow-visible flex-nowrap gap-4">
+        <!-- Logo -->
+        <div class="w-32">
+          <a href="/" class="text-2xl font-bold text-teal-400 whitespace-nowrap hover:text-teal-300 transition-colors duration-300">Nusari</a>
+        </div>
+        <div class="flex-grow"></div>
+        <a href="/login.html" class="text-white hover:text-teal-400 transition-colors duration-300">Iniciar Sesión</a>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <div class="relative min-h-screen flex items-center justify-center bg-cover bg-center" style="background-image: linear-gradient(rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.8)), url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
+      <div class="text-center px-4">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 text-teal-400">Bienvenido a Nusari</h1>
+        <p class="text-xl md:text-2xl mb-12 text-gray-300 max-w-2xl mx-auto">
+          Tu plataforma para descubrir y compartir arte digital. Explora galerías, lee relatos y conecta con artistas.
+        </p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <a href="/gallery.html" class="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300">
+            Explorar Galería
+          </a>
+          <a href="/register.html" class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300">
+            Crear Cuenta
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Secciones de características -->
+    <div class="py-20 bg-gray-800">
+      <div class="max-w-7xl mx-auto px-4">
+        <div class="grid md:grid-cols-3 gap-12">
+          <div class="text-center">
+            <i class="fas fa-images text-4xl text-teal-400 mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">Explora Imágenes</h3>
+            <p class="text-gray-400">Descubre obras de arte únicas de artistas de todo el mundo.</p>
+          </div>
+          <div class="text-center">
+            <i class="fas fa-book text-4xl text-teal-400 mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">Lee Relatos</h3>
+            <p class="text-gray-400">Sumérgete en historias cautivadoras y relatos creativos.</p>
+          </div>
+          <div class="text-center">
+            <i class="fas fa-users text-4xl text-teal-400 mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">Únete a la Comunidad</h3>
+            <p class="text-gray-400">Conecta con otros artistas y comparte tu creatividad.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
