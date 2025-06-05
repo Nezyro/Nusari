@@ -7,6 +7,8 @@
     <title>Nusari - Iniciar Sesión</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/src/config/api.js"></script>
   </head>
   <body class="bg-gray-900 text-white overflow-x-hidden">
     <!-- Barra superior -->
@@ -95,37 +97,37 @@
       </div>
     </main>
 
-    <script>
-      const loginForm = document.getElementById('loginForm');
+    <script type="module">
+      import api from '/src/config/api.js';
 
-      loginForm.addEventListener('submit', async (e) => {
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
-        const formData = {
-          email: document.getElementById('email').value,
-          password: document.getElementById('password').value,
-          remember: document.getElementById('remember').checked
-        };
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const remember = document.getElementById('remember').checked;
 
         try {
-          const response = await fetch('http://localhost:3000/api/auth/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
+          const response = await api.post('/auth/login', { email, password, remember });
+          const { token, user } = response.data;
+          
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(user));
+
+          await Swal.fire({
+            icon: 'success',
+            title: '¡Bienvenido!',
+            text: 'Has iniciado sesión correctamente',
+            timer: 1500
           });
 
-          if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
-            window.location.href = '/';
-          } else {
-            throw new Error('Error al iniciar sesión');
-          }
+          window.location.href = '/';
         } catch (error) {
-          console.error('Error:', error);
-          alert('Error al iniciar sesión. Por favor, verifica tus credenciales.');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.response?.data?.error || 'Error al iniciar sesión'
+          });
         }
       });
     </script>

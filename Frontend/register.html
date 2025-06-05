@@ -4,9 +4,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nusari - Registro</title>
+    <title>Registro - Galería de Arte</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/src/config/api.js"></script>
   </head>
 
   <body class="bg-gray-900 text-white overflow-x-hidden">
@@ -103,45 +105,87 @@
       </div>
     </main>
 
-    <script>
-      const registerForm = document.getElementById('registerForm');
+    <script type="module">
+      import api from '/src/config/api.js';
 
-      registerForm.addEventListener('submit', async (e) => {
+      document.getElementById('registerForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         
+        const username = document.getElementById('username').value.trim();
+        const email = document.getElementById('email').value.trim();
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
 
-        if (password !== confirmPassword) {
-          alert('Las contraseñas no coinciden');
+        // Validaciones básicas
+        if (!username || !email || !password || !confirmPassword) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Por favor, completa todos los campos'
+          });
           return;
         }
 
-        const formData = {
-          username: document.getElementById('username').value,
-          email: document.getElementById('email').value,
-          password: password
-        };
+        if (password.length < 6) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'La contraseña debe tener al menos 6 caracteres'
+          });
+          return;
+        }
+
+        if (password !== confirmPassword) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: 'Las contraseñas no coinciden'
+          });
+          return;
+        }
 
         try {
-          const response = await fetch('http://localhost:3000/api/auth/register', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formData)
+          const response = await api.post('/auth/register', { 
+            username, 
+            email, 
+            password 
           });
 
-          if (response.ok) {
-            const data = await response.json();
-            localStorage.setItem('token', data.token);
+          if (response.data && response.data.token) {
+            const { token, user } = response.data;
+            
+            localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(user));
+
+            await Swal.fire({
+              icon: 'success',
+              title: '¡Registro exitoso!',
+              text: 'Tu cuenta ha sido creada correctamente',
+              timer: 1500
+            });
+
             window.location.href = '/';
           } else {
-            throw new Error('Error al registrarse');
+            throw new Error('Respuesta inválida del servidor');
           }
         } catch (error) {
-          console.error('Error:', error);
-          alert('Error al registrarse. Por favor, inténtalo de nuevo.');
+          console.error('Error de registro:', error);
+          
+          let errorMessage = 'Error al registrar usuario';
+          
+          if (error.response) {
+            // El servidor respondió con un código de error
+            errorMessage = error.response.data?.error || errorMessage;
+          } else if (error.request) {
+            // La petición fue hecha pero no se recibió respuesta
+            errorMessage = 'No se pudo conectar con el servidor';
+          }
+
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: errorMessage
+          });
         }
       });
     </script>
