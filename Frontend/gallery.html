@@ -228,113 +228,119 @@
     }
 
     function createArtworkCard(artwork) {
-      const backendUrl = 'http://localhost:3000'; // Cambia si es necesario
+  const backendUrl = 'http://localhost:3000'; // Cambia si es necesario
 
-      const card = document.createElement('div');
-      card.className = 'bg-white rounded-lg shadow-md overflow-hidden break-inside-avoid mb-4';
+  const card = document.createElement('div');
+  card.className = 'bg-white rounded-lg shadow-md overflow-hidden break-inside-avoid mb-4';
 
-      // Imagen principal con aspecto cuadrado
-      const imageContainer = document.createElement('div');
-      imageContainer.className = 'relative pt-[100%]';
+  // Enlace a artwork.html con el ID
+  const link = document.createElement('a');
+  link.href = `artwork.html?id=${artwork._id}`;
+  link.className = 'block';
 
-      const img = document.createElement('img');
-      const imgSrc = artwork.imageUrl
-        ? backendUrl + (artwork.imageUrl.startsWith('/') ? artwork.imageUrl : '/' + artwork.imageUrl)
-        : backendUrl + '/uploads/artworks/default-image.jpg';
-      img.src = imgSrc;
-      img.alt = artwork.title || 'Artwork sin título';
-      img.className = 'absolute inset-0 w-full h-full object-cover';
+  // Imagen principal con aspecto cuadrado
+  const imageContainer = document.createElement('div');
+  imageContainer.className = 'relative pt-[100%]';
 
-      imageContainer.appendChild(img);
+  const img = document.createElement('img');
+  const imgSrc = artwork.imageUrl
+    ? backendUrl + (artwork.imageUrl.startsWith('/') ? artwork.imageUrl : '/' + artwork.imageUrl)
+    : backendUrl + '/uploads/artworks/default-image.jpg';
+  img.src = imgSrc;
+  img.alt = artwork.title || 'Artwork sin título';
+  img.className = 'absolute inset-0 w-full h-full object-cover';
 
-      // Contenido textual
-      const content = document.createElement('div');
-      content.className = 'p-4';
+  imageContainer.appendChild(img);
+  link.appendChild(imageContainer);
 
-      // Título
-      const title = document.createElement('h3');
-      title.className = 'text-lg font-semibold text-gray-800 mb-2';
-      title.textContent = artwork.title || 'Sin título';
-      content.appendChild(title);
+  // Contenido textual
+  const content = document.createElement('div');
+  content.className = 'p-4';
 
-      // Información del usuario y likes container
-      const infoContainer = document.createElement('div');
-      infoContainer.className = 'flex items-center justify-between';
+  // Título
+  const title = document.createElement('h3');
+  title.className = 'text-lg font-semibold text-gray-800 mb-2';
+  title.textContent = artwork.title || 'Sin título';
+  content.appendChild(title);
 
-      // Usuario
-      const userInfo = document.createElement('div');
-      userInfo.className = 'flex items-center space-x-2';
+  // Información del usuario y likes container
+  const infoContainer = document.createElement('div');
+  infoContainer.className = 'flex items-center justify-between';
 
-      if (artwork.user?.profilePicture) {
-        const profilePic = document.createElement('img');
-        const profilePicSrc = backendUrl + (artwork.user.profilePicture.startsWith('/') ? artwork.user.profilePicture : '/' + artwork.user.profilePicture);
-        profilePic.src = profilePicSrc;
-        profilePic.alt = artwork.user.username || 'Usuario';
-        profilePic.className = 'w-8 h-8 rounded-full object-cover';
-        userInfo.appendChild(profilePic);
-      }
+  // Usuario
+  const userInfo = document.createElement('div');
+  userInfo.className = 'flex items-center space-x-2';
 
-      const username = document.createElement('span');
-      username.className = 'text-sm text-gray-600';
-      username.textContent = artwork.user?.username || 'Usuario';
-      userInfo.appendChild(username);
+  if (artwork.user?.profilePicture && artwork.user.profilePicture !== 'default-profile.jpg') {
+    const profilePic = document.createElement('img');
+    const profilePicSrc = backendUrl + (artwork.user.profilePicture.startsWith('/') ? artwork.user.profilePicture : '/' + artwork.user.profilePicture);
+    profilePic.src = profilePicSrc;
+    profilePic.alt = artwork.user.username || 'Usuario';
+    profilePic.className = 'w-8 h-8 rounded-full object-cover';
+    userInfo.appendChild(profilePic);
+  }
 
-      infoContainer.appendChild(userInfo);
+  const username = document.createElement('span');
+  username.className = 'text-sm text-gray-600';
+  username.textContent = artwork.user?.username || 'Usuario';
+  userInfo.appendChild(username);
 
-      // Likes
-      const likesDiv = document.createElement('div');
-      likesDiv.className = 'flex items-center space-x-1 text-gray-500 text-sm';
+  infoContainer.appendChild(userInfo);
 
-      const heartIcon = document.createElement('i');
-      heartIcon.className = 'fas fa-heart text-red-500';
-      likesDiv.appendChild(heartIcon);
+  // Likes
+  const likesDiv = document.createElement('div');
+  likesDiv.className = 'flex items-center space-x-1 text-gray-500 text-sm';
 
-      const likesCount = document.createElement('span');
-      likesCount.textContent = artwork.likes?.length || 0;
-      likesDiv.appendChild(likesCount);
+  const heartIcon = document.createElement('i');
+  heartIcon.className = 'fas fa-heart text-red-500';
+  likesDiv.appendChild(heartIcon);
 
-      infoContainer.appendChild(likesDiv);
+  const likesCount = document.createElement('span');
+  likesCount.textContent = artwork.likes?.length || 0;
+  likesDiv.appendChild(likesCount);
 
-      content.appendChild(infoContainer);
+  infoContainer.appendChild(likesDiv);
 
-      card.appendChild(imageContainer);
-      card.appendChild(content);
+  content.appendChild(infoContainer);
 
-      return card;
-    }
+  card.appendChild(link);
+  card.appendChild(content);
+
+  return card;
+}
 
 
+function createStoryCard(story) {
+  const card = document.createElement('div');
+  card.className = 'break-inside-avoid mb-4';
 
-
-
-    function createStoryCard(story) {
-      const card = document.createElement('div');
-      card.className = 'break-inside-avoid mb-4';
-      
-      card.innerHTML = `
-        <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold mb-2">${story.title}</h3>
-            <div class="flex items-center justify-between">
-              <div class="flex items-center space-x-2">
-                <img src="/uploads/${story.author.profilePicture}" 
-                     alt="${story.author.username}" 
-                     class="w-8 h-8 rounded-full" />
-                <span class="text-sm text-gray-300">${story.author.username}</span>
-              </div>
-              <div class="flex items-center space-x-4">
-                <button class="text-gray-400 hover:text-teal-400 transition-colors duration-300">
-                  <i class="fas fa-heart"></i>
-                  <span class="ml-1">${story.likes || 0}</span>
-                </button>
-              </div>
+  card.innerHTML = `
+    <a href="artwork.html?id=${story._id}" class="block">
+      <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <div class="p-4">
+          <h3 class="text-lg font-semibold mb-2">${story.title}</h3>
+          <div class="flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <img src="/uploads/${story.author.profilePicture}" 
+                   alt="${story.author.username}" 
+                   class="w-8 h-8 rounded-full" />
+              <span class="text-sm text-gray-300">${story.author.username}</span>
+            </div>
+            <div class="flex items-center space-x-4">
+              <button class="text-gray-400 hover:text-teal-400 transition-colors duration-300">
+                <i class="fas fa-heart"></i>
+                <span class="ml-1">${story.likes || 0}</span>
+              </button>
             </div>
           </div>
         </div>
-      `;
+      </div>
+    </a>
+  `;
 
-      return card;
-    }
+  return card;
+}
+
 
     // Event listeners
     loadMoreBtn.addEventListener('click', loadContent);

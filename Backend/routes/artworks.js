@@ -80,4 +80,15 @@ router.get('/', async (req, res) => {
   }
 });
 
+// Ruta GET para obtener obras de un usuario
+router.get('/mine', auth, async (req, res) => {
+  try {
+    const artworks = await Artwork.find({ 'author.id': req.user.id });
+    res.json(artworks);
+  } catch (err) {
+    res.status(500).json({ error: 'No se pudieron cargar tus imágenes' });
+  }
+});
+
+
 module.exports = router;

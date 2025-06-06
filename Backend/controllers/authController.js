@@ -192,7 +192,7 @@ const uploadProfilePicture = async (req, res) => {
     }
 
     // Update user profile image
-    user.profileImage = req.file.filename;
+    user.profileImage = `perfiles/${req.file.filename}`;
     await user.save();
 
     res.json({
