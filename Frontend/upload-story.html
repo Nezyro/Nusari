@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Nusari - Subir relato</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/src/config/api.js"></script>
+    <script type="module" src="/src/components/navbar.js"></script>
+  </head>
+  <body class="bg-gray-900 text-white">
+    <!-- Navbar will be inserted here -->
+    <div id="navbar"></div>
+
+    <!-- Contenido principal -->
+    <main class="max-w-4xl mx-auto p-4">
+      <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+        <h1 class="text-2xl font-bold mb-6">Subir relato</h1>
+
+        <form id="uploadForm" class="space-y-6">
+          <!-- Información del relato -->
+          <div>
+            <label for="title" class="block text-sm font-medium text-gray-300">Título</label>
+            <input type="text" id="title" name="title" required
+              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
+          </div>
+
+          <div>
+            <label for="content" class="block text-sm font-medium text-gray-300">Contenido</label>
+            <textarea id="content" name="content" rows="12" required
+              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent"></textarea>
+          </div>
+
+          <div>
+            <label for="genre" class="block text-sm font-medium text-gray-300">Género</label>
+            <select id="genre" name="genre" required
+              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent">
+              <option value="">Seleccionar género</option>
+              <option value="fantasy">Fantasía</option>
+              <option value="scifi">Ciencia Ficción</option>
+              <option value="horror">Terror</option>
+              <option value="romance">Romance</option>
+              <option value="mystery">Misterio</option>
+              <option value="other">Otro</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="tags" class="block text-sm font-medium text-gray-300">Etiquetas</label>
+            <input type="text" id="tags" name="tags" placeholder="Separadas por comas"
+              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
+          </div>
+
+          <div class="flex justify-end space-x-4">
+            <button type="button" onclick="window.location.href='/gallery.html'"
+              class="px-4 py-2 border border-gray-600 text-gray-300 rounded-lg hover:bg-gray-700 transition-colors duration-300">
+              Cancelar
+            </button>
+            <button type="submit"
+              class="px-4 py-2 bg-teal-500 text-white rounded-lg hover:bg-teal-600 transition-colors duration-300">
+              Publicar relato
+            </button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <script type="module">
+      import api from '/src/config/api.js';
+      import { createNavbar } from '/src/components/navbar.js';
+
+      // Insert navbar
+      document.getElementById('navbar').appendChild(createNavbar());
+
+      // Check if user is logged in
+      const token = localStorage.getItem('token');
+      if (!token) {
+        window.location.href = '/login.html';
+      }
+
+      // Handle form submission
+      document.getElementById('uploadForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const storyData = {
+          title: document.getElementById('title').value,
+          content: document.getElementById('content').value,
+          genre: document.getElementById('genre').value,
+          tags: document.getElementById('tags').value.split(',').map(tag => tag.trim()).filter(tag => tag)
+        };
+
+        try {
+          const response = await api.post('/stories', storyData);
+
+          Swal.fire({
+            icon: 'success',
+            title: '¡Éxito!',
+            text: 'Tu relato ha sido publicado correctamente',
+            timer: 1500
+          }).then(() => {
+            window.location.href = '/gallery.html';
+          });
+        } catch (error) {
+          console.error('Error publishing story:', error);
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.response?.data?.error || 'Error al publicar el relato'
+          });
+        }
+      });
+    </script>
+  </body>
+</html> 

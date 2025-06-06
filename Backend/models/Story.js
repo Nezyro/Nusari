@@ -1,12 +1,43 @@
-// models/Story.js
-import mongoose from 'mongoose';
+const mongoose = require('mongoose');
 
 const storySchema = new mongoose.Schema({
-  id: { type: Number, unique: true }, // Usamos contador como con las imágenes
-  title: { type: String, required: true },
-  content: { type: String, required: true },
-  author: { type: String }, // Puede ser un ObjectId si hay auth
-  createdAt: { type: Date, default: Date.now }
+  title: {
+    type: String,
+    required: true,
+    trim: true
+  },
+  content: {
+    type: String,
+    required: true
+  },
+  author: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    required: true
+  },
+  tags: [{
+    type: String,
+    trim: true
+  }],
+  likes: [{
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  }],
+  comments: [{
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'User'
+    },
+    text: String,
+    createdAt: {
+      type: Date,
+      default: Date.now
+    }
+  }],
+  createdAt: {
+    type: Date,
+    default: Date.now
+  }
 });
 
-export default mongoose.model('Story', storySchema);
+module.exports = mongoose.model('Story', storySchema); 

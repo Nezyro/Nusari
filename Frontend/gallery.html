@@ -6,93 +6,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Nusari - Galería</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="./dist/output.css">
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script type="module" src="/src/config/api.js"></script>
+  <script type="module" src="/src/components/navbar.js"></script>
 </head>
 
 <body class="bg-gray-900 text-white overflow-x-hidden">
 
-  <!-- Barra superior -->
-  <nav class="bg-gray-800 shadow sticky top-0 z-50 w-full">
-    <div
-      class="max-w-screen-xl mx-auto flex items-center h-16 px-4 w-full overflow-visible flex-nowrap gap-4">
-
-      <!-- Menú hamburguesa -->
-      <button id="toggleSidebar"
-        class="text-white text-2xl hover:text-teal-400 focus:outline-none w-10 flex justify-center transition-colors duration-300">
-        <i class="fas fa-bars"></i>
-      </button>
-
-      <!-- Logo -->
-      <div class="w-32">
-        <a href="gallery.html" class="text-2xl font-bold text-teal-400 whitespace-nowrap hover:text-teal-300 transition-colors duration-300">Nusari</a>
-      </div>
-
-      <!-- Buscador -->
-      <div class="flex-grow max-w-[500px] min-w-[200px] px-4">
-        <div class="relative">
-          <input type="text" placeholder="Buscar..."
-            class="w-full bg-gray-700 text-white rounded-full pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400" />
-          <button
-            class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-300">
-            <i class="fas fa-search fa-lg"></i>
-          </button>
-        </div>
-      </div>
-
-      <!-- Subir contenido -->
-      <div class="relative" id="uploadDropdown">
-        <button id="uploadBtn" class="text-white text-xl hover:text-teal-400 transition-colors duration-300 p-2 focus:outline-none">
-          <i class="fas fa-upload"></i>
-        </button>
-        <div id="uploadMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg z-50 divide-y divide-gray-600">
-          <a href="/upload/image" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
-            <i class="fas fa-image mr-2"></i>Subir imagen
-          </a>
-          <a href="/upload/story" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
-            <i class="fas fa-pen mr-2"></i>Escribir relato
-          </a>
-        </div>
-      </div>
-
-      <!-- Botón de login (visible cuando no hay sesión) -->
-      <a href="/login.html" id="loginButton" class="text-white hover:text-teal-400 transition-colors duration-300 hidden">
-        Iniciar Sesión
-      </a>
-
-      <!-- Perfil (visible cuando hay sesión) -->
-      <div class="relative" id="profileDropdown">
-        <button id="profileBtn" class="flex items-center space-x-2 focus:outline-none p-2">
-          <img src="https://via.placeholder.com/32" alt="Perfil"
-            class="w-8 h-8 rounded-full border-2 border-teal-400" />
-          <i class="fas fa-caret-down text-gray-400"></i>
-        </button>
-
-        <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg z-50 divide-y divide-gray-600">
-          <a href="/profile" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
-            <i class="fas fa-user mr-2"></i>Mi Perfil
-          </a>
-          <a href="/settings" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
-            <i class="fas fa-cog mr-2"></i>Configuración
-          </a>
-          <a href="/logout" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
-            <i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión
-          </a>
-        </div>
-      </div>
-
-    </div>
-  </nav>
+  <!-- Navbar will be inserted here -->
+  <div id="navbar"></div>
 
   <!-- Contenedor general -->
   <div class="flex pt-16">
-
     <!-- Sidebar -->
     <aside id="sidebar"
       class="bg-gray-800 fixed top-0 left-0 h-full w-16 transition-all duration-300 flex flex-col items-start shadow-lg z-40 overflow-hidden">
-
       <nav class="flex flex-col space-y-4 mt-20 w-full">
-        <!-- Cada enlace es un flex-row con icono fijo y texto ocultable -->
         <a href="/"
           class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
           <i class="fas fa-home text-xl w-6 text-center"></i>
@@ -117,96 +49,316 @@
           <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Favoritos</span>
         </a>
       </nav>
-
     </aside>
 
     <!-- Contenido principal -->
     <main id="mainContent" class="flex-1 ml-16 p-4 transition-all duration-300">
-      <div id="gallery" class="columns-2 md:columns-3 lg:columns-6 gap-4 space-y-4">
-        <!-- Las imágenes irán aquí -->
+      <!-- Filtros y ordenación -->
+      <div class="mb-6 flex flex-wrap gap-4 items-center justify-between">
+        <div class="flex items-center space-x-4">
+          <div class="flex items-center space-x-2">
+            <label for="type" class="text-sm text-gray-300">Tipo:</label>
+            <select id="type" class="bg-gray-700 text-white rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-teal-400">
+              <option value="all">Todo</option>
+              <option value="artwork">Imágenes</option>
+              <option value="story">Relatos</option>
+            </select>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <label for="category" class="text-sm text-gray-300">Categoría:</label>
+            <select id="category" class="bg-gray-700 text-white rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-teal-400">
+              <option value="">Todas</option>
+              <option value="digital">Arte Digital</option>
+              <option value="traditional">Arte Tradicional</option>
+              <option value="photography">Fotografía</option>
+              <option value="illustration">Ilustración</option>
+            </select>
+          </div>
+
+          <div class="flex items-center space-x-2">
+            <label for="sort" class="text-sm text-gray-300">Ordenar por:</label>
+            <select id="sort" class="bg-gray-700 text-white rounded-lg px-3 py-1 focus:outline-none focus:ring-2 focus:ring-teal-400">
+              <option value="recent">Más recientes</option>
+              <option value="popular">Más populares</option>
+              <option value="trending">Tendencias</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- Upload dropdown -->
+        <div class="relative" id="uploadDropdown">
+          <button id="uploadBtn" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg transition-colors duration-300">
+            <i class="fas fa-upload mr-2"></i>Subir
+          </button>
+          <div id="uploadMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg z-50 divide-y divide-gray-600">
+            <a href="/upload-artwork.html" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
+              <i class="fas fa-image mr-2"></i>Subir imagen
+            </a>
+            <a href="/upload-story.html" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
+              <i class="fas fa-pen mr-2"></i>Escribir relato
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grid de obras -->
+      <div id="gallery" class="columns-1 md:columns-2 lg:columns-3 xl:columns-6 gap-4 space-y-4">
+        <!-- Las obras se cargarán aquí dinámicamente -->
+      </div>
+
+      <!-- Botón de cargar más -->
+      <div class="text-center mt-8">
+        <button id="loadMore" class="bg-teal-500 hover:bg-teal-600 text-white px-6 py-2 rounded-lg transition-colors duration-300">
+          Cargar más
+        </button>
       </div>
     </main>
   </div>
 
-  <script src="/js/auth.js"></script>
-  <script>
-    // Verificar autenticación al cargar la página
-    document.addEventListener('DOMContentLoaded', () => {
-      auth.updateAuthUI();
-    });
+  <script type="module">
+    import api from '/src/config/api.js';
+    import { createNavbar } from '/src/components/navbar.js';
 
+    // Insert navbar
+    const navbar = createNavbar();
+    document.getElementById('navbar').appendChild(navbar);
+
+    // Get the toggle button from the navbar
+    const toggleButton = navbar.querySelector('#toggleSidebar');
     const sidebar = document.getElementById('sidebar');
-    const toggleButton = document.getElementById('toggleSidebar');
     const mainContent = document.getElementById('mainContent');
     const sidebarTexts = document.querySelectorAll('.sidebar-text');
 
-    toggleButton.addEventListener('click', () => {
-      // Alterna clases para ancho sidebar y margen contenido
-      if (sidebar.classList.contains('w-16')) {
-        sidebar.classList.replace('w-16', 'w-48');
-        mainContent.classList.replace('ml-16', 'ml-48');
-        // Muestra los textos del sidebar
-        sidebarTexts.forEach(text => {
-          text.classList.remove('max-w-0');
-          text.classList.add('max-w-xs');
-        });
-      } else {
-        sidebar.classList.replace('w-48', 'w-16');
-        mainContent.classList.replace('ml-48', 'ml-16');
-        // Oculta los textos del sidebar
-        sidebarTexts.forEach(text => {
-          text.classList.remove('max-w-xs');
-          text.classList.add('max-w-0');
-        });
-      }
-    });
-
-    function setupDropdown(buttonId, menuId) {
-      const button = document.getElementById(buttonId);
-      const menu = document.getElementById(menuId);
-
-      button.addEventListener('click', (e) => {
-        e.stopPropagation();
-        menu.classList.toggle('hidden');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!menu.contains(e.target) && !button.contains(e.target)) {
-          menu.classList.add('hidden');
+    // Sidebar toggle functionality
+    if (toggleButton) {
+      toggleButton.addEventListener('click', () => {
+        if (sidebar.classList.contains('w-16')) {
+          sidebar.classList.replace('w-16', 'w-48');
+          mainContent.classList.replace('ml-16', 'ml-48');
+          sidebarTexts.forEach(text => {
+            text.classList.remove('max-w-0');
+            text.classList.add('max-w-xs');
+          });
+        } else {
+          sidebar.classList.replace('w-48', 'w-16');
+          mainContent.classList.replace('ml-48', 'ml-16');
+          sidebarTexts.forEach(text => {
+            text.classList.remove('max-w-xs');
+            text.classList.add('max-w-0');
+          });
         }
       });
     }
 
-    // Aplica a ambos menús
-    setupDropdown('uploadBtn', 'uploadMenu');
-    setupDropdown('profileBtn', 'profileMenu');
+    // Upload dropdown functionality
+    const uploadBtn = document.getElementById('uploadBtn');
+    const uploadMenu = document.getElementById('uploadMenu');
 
+    uploadBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      uploadMenu.classList.toggle('hidden');
+    });
 
-    // Carga imágenes demo para masonry
+    document.addEventListener('click', (e) => {
+      if (!uploadMenu.contains(e.target) && !uploadBtn.contains(e.target)) {
+        uploadMenu.classList.add('hidden');
+      }
+    });
+
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login.html';
+    }
+
+    // Gallery functionality
     const gallery = document.getElementById('gallery');
-    async function loadImages(count = 10) {
-      try {
-        const res = await fetch(`http://localhost:3000/api/images/random?count=${count}`);
-        const images = await res.json();
+    const loadMoreBtn = document.getElementById('loadMore');
+    let page = 1;
+    const limit = 12;
+    let loadedItems = new Set(); // To track loaded items
 
-        images.forEach(image => {
-          const img = document.createElement('img');
-          img.src = image.url;
-          img.className = "w-full rounded-lg mb-4 break-inside-avoid";
-          gallery.appendChild(img);
+    async function loadContent() {
+      try {
+        const type = document.getElementById('type').value;
+        const category = document.getElementById('category').value;
+        const sort = document.getElementById('sort').value;
+        
+        let response;
+        if (type === 'all' || type === 'artwork') {
+          response = await api.get(`/artworks?page=${page}&limit=${limit}&category=${category}&sort=${sort}`);
+          const artworks = response.data;
+          const newArtworks = artworks.filter(artwork => !loadedItems.has(`artwork-${artwork._id}`));
+          
+          newArtworks.forEach(artwork => {
+            loadedItems.add(`artwork-${artwork._id}`);
+            const card = createArtworkCard(artwork);
+            gallery.appendChild(card);
+          });
+        }
+        
+        if (type === 'all' || type === 'story') {
+          response = await api.get(`/stories?page=${page}&limit=${limit}&sort=${sort}`);
+          const stories = response.data;
+          const newStories = stories.filter(story => !loadedItems.has(`story-${story._id}`));
+          
+          newStories.forEach(story => {
+            loadedItems.add(`story-${story._id}`);
+            const card = createStoryCard(story);
+            gallery.appendChild(card);
+          });
+        }
+
+        if ((type === 'all' && response.data.length === 0) || 
+            (type !== 'all' && response.data.length === 0)) {
+          loadMoreBtn.style.display = 'none';
+          return;
+        }
+
+        page++;
+      } catch (error) {
+        console.error('Error loading content:', error);
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al cargar el contenido'
         });
-      } catch (err) {
-        console.error("Error al cargar imágenes:", err);
       }
     }
 
-    loadImages();
+    function createArtworkCard(artwork) {
+      const backendUrl = 'http://localhost:3000'; // Cambia si es necesario
 
-    window.addEventListener('scroll', () => {
-      if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
-        loadImages(10);
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-lg shadow-md overflow-hidden break-inside-avoid mb-4';
+
+      // Imagen principal con aspecto cuadrado
+      const imageContainer = document.createElement('div');
+      imageContainer.className = 'relative pt-[100%]';
+
+      const img = document.createElement('img');
+      const imgSrc = artwork.imageUrl
+        ? backendUrl + (artwork.imageUrl.startsWith('/') ? artwork.imageUrl : '/' + artwork.imageUrl)
+        : backendUrl + '/uploads/artworks/default-image.jpg';
+      img.src = imgSrc;
+      img.alt = artwork.title || 'Artwork sin título';
+      img.className = 'absolute inset-0 w-full h-full object-cover';
+
+      imageContainer.appendChild(img);
+
+      // Contenido textual
+      const content = document.createElement('div');
+      content.className = 'p-4';
+
+      // Título
+      const title = document.createElement('h3');
+      title.className = 'text-lg font-semibold text-gray-800 mb-2';
+      title.textContent = artwork.title || 'Sin título';
+      content.appendChild(title);
+
+      // Información del usuario y likes container
+      const infoContainer = document.createElement('div');
+      infoContainer.className = 'flex items-center justify-between';
+
+      // Usuario
+      const userInfo = document.createElement('div');
+      userInfo.className = 'flex items-center space-x-2';
+
+      if (artwork.user?.profilePicture) {
+        const profilePic = document.createElement('img');
+        const profilePicSrc = backendUrl + (artwork.user.profilePicture.startsWith('/') ? artwork.user.profilePicture : '/' + artwork.user.profilePicture);
+        profilePic.src = profilePicSrc;
+        profilePic.alt = artwork.user.username || 'Usuario';
+        profilePic.className = 'w-8 h-8 rounded-full object-cover';
+        userInfo.appendChild(profilePic);
       }
+
+      const username = document.createElement('span');
+      username.className = 'text-sm text-gray-600';
+      username.textContent = artwork.user?.username || 'Usuario';
+      userInfo.appendChild(username);
+
+      infoContainer.appendChild(userInfo);
+
+      // Likes
+      const likesDiv = document.createElement('div');
+      likesDiv.className = 'flex items-center space-x-1 text-gray-500 text-sm';
+
+      const heartIcon = document.createElement('i');
+      heartIcon.className = 'fas fa-heart text-red-500';
+      likesDiv.appendChild(heartIcon);
+
+      const likesCount = document.createElement('span');
+      likesCount.textContent = artwork.likes?.length || 0;
+      likesDiv.appendChild(likesCount);
+
+      infoContainer.appendChild(likesDiv);
+
+      content.appendChild(infoContainer);
+
+      card.appendChild(imageContainer);
+      card.appendChild(content);
+
+      return card;
+    }
+
+
+
+
+
+    function createStoryCard(story) {
+      const card = document.createElement('div');
+      card.className = 'break-inside-avoid mb-4';
+      
+      card.innerHTML = `
+        <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+          <div class="p-4">
+            <h3 class="text-lg font-semibold mb-2">${story.title}</h3>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center space-x-2">
+                <img src="/uploads/${story.author.profilePicture}" 
+                     alt="${story.author.username}" 
+                     class="w-8 h-8 rounded-full" />
+                <span class="text-sm text-gray-300">${story.author.username}</span>
+              </div>
+              <div class="flex items-center space-x-4">
+                <button class="text-gray-400 hover:text-teal-400 transition-colors duration-300">
+                  <i class="fas fa-heart"></i>
+                  <span class="ml-1">${story.likes || 0}</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      return card;
+    }
+
+    // Event listeners
+    loadMoreBtn.addEventListener('click', loadContent);
+    document.getElementById('type').addEventListener('change', () => {
+      gallery.innerHTML = '';
+      page = 1;
+      loadedItems.clear();
+      loadContent();
     });
+    document.getElementById('category').addEventListener('change', () => {
+      gallery.innerHTML = '';
+      page = 1;
+      loadedItems.clear();
+      loadContent();
+    });
+    document.getElementById('sort').addEventListener('change', () => {
+      gallery.innerHTML = '';
+      page = 1;
+      loadedItems.clear();
+      loadContent();
+    });
+
+    // Initial load
+    loadContent();
   </script>
 
 </body>

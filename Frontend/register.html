@@ -4,136 +4,80 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Registro - Galería de Arte</title>
+    <title>Nusari - Registro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script type="module" src="/src/config/api.js"></script>
+    <script type="module" src="/src/components/navbar.js"></script>
   </head>
 
-  <body class="bg-gray-900 text-white overflow-x-hidden">
-    <!-- Barra superior -->
-    <nav class="bg-gray-800 shadow sticky top-0 z-50 w-full">
-      <div class="max-w-screen-xl mx-auto flex items-center h-16 px-4 w-full overflow-visible flex-nowrap gap-4">
-        <!-- Logo -->
-        <div class="w-32">
-          <a href="/" class="text-2xl font-bold text-teal-400 whitespace-nowrap hover:text-teal-300 transition-colors duration-300">Nusari</a>
-        </div>
-      </div>
-    </nav>
+  <body class="bg-gray-900 text-white">
+    <!-- Navbar will be inserted here -->
+    <div id="navbar"></div>
 
     <!-- Contenido principal -->
-    <main class="min-h-screen flex items-center justify-center p-4">
-      <div class="max-w-md w-full space-y-8 bg-gray-800 p-8 rounded-lg shadow-lg">
-        <div>
-          <h2 class="text-3xl font-bold text-center text-teal-400">Crear Cuenta</h2>
-          <p class="mt-2 text-center text-gray-400">
-            ¿Ya tienes una cuenta?
-            <a href="/login.html" class="text-teal-400 hover:text-teal-300 transition-colors duration-300">
-              Inicia sesión
-            </a>
-          </p>
-        </div>
-
-        <form id="registerForm" class="mt-8 space-y-6">
-          <div class="space-y-4">
-            <div>
-              <label for="username" class="block text-sm font-medium text-gray-300">Nombre de usuario</label>
-              <input id="username" name="username" type="text" required
-                class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
-            </div>
-
-            <div>
-              <label for="email" class="block text-sm font-medium text-gray-300">Correo electrónico</label>
-              <input id="email" name="email" type="email" required
-                class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
-            </div>
-
-            <div>
-              <label for="password" class="block text-sm font-medium text-gray-300">Contraseña</label>
-              <input id="password" name="password" type="password" required
-                class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
-            </div>
-
-            <div>
-              <label for="confirmPassword" class="block text-sm font-medium text-gray-300">Confirmar contraseña</label>
-              <input id="confirmPassword" name="confirmPassword" type="password" required
-                class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
-            </div>
-          </div>
-
-          <div class="flex items-center">
-            <input id="terms" name="terms" type="checkbox" required
-              class="h-4 w-4 text-teal-400 focus:ring-teal-400 border-gray-600 rounded bg-gray-700" />
-            <label for="terms" class="ml-2 block text-sm text-gray-300">
-              Acepto los
-              <a href="/terms" class="text-teal-400 hover:text-teal-300 transition-colors duration-300">términos y condiciones</a>
-            </label>
+    <main class="max-w-md mx-auto p-4 mt-8">
+      <div class="bg-gray-800 rounded-lg shadow-lg p-6">
+        <h1 class="text-2xl font-bold text-center mb-6">Crear cuenta</h1>
+        <form id="registerForm" class="space-y-4">
+          <div>
+            <label for="username" class="block text-sm font-medium text-gray-300">Nombre de usuario</label>
+            <input type="text" id="username" name="username" required
+              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
           </div>
 
           <div>
-            <button type="submit"
-              class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 focus:ring-offset-gray-800 transition-colors duration-300">
-              Registrarse
-            </button>
+            <label for="email" class="block text-sm font-medium text-gray-300">Correo electrónico</label>
+            <input type="email" id="email" name="email" required
+              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
           </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-300">Contraseña</label>
+            <input type="password" id="password" name="password" required
+              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="block text-sm font-medium text-gray-300">Confirmar contraseña</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required
+              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
+          </div>
+
+          <button type="submit"
+            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 focus:ring-offset-gray-800 transition-colors duration-300">
+            Registrarse
+          </button>
         </form>
 
-        <div class="mt-6">
-          <div class="relative">
-            <div class="absolute inset-0 flex items-center">
-              <div class="w-full border-t border-gray-600"></div>
-            </div>
-            <div class="relative flex justify-center text-sm">
-              <span class="px-2 bg-gray-800 text-gray-400">O regístrate con</span>
-            </div>
-          </div>
-
-          <div class="mt-6 grid grid-cols-2 gap-3">
-            <button type="button"
-              class="w-full inline-flex justify-center py-2 px-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 text-sm font-medium text-gray-300 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 focus:ring-offset-gray-800 transition-colors duration-300">
-              <i class="fab fa-google mr-2"></i>
-              Google
-            </button>
-            <button type="button"
-              class="w-full inline-flex justify-center py-2 px-4 border border-gray-600 rounded-lg shadow-sm bg-gray-700 text-sm font-medium text-gray-300 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 focus:ring-offset-gray-800 transition-colors duration-300">
-              <i class="fab fa-github mr-2"></i>
-              GitHub
-            </button>
-          </div>
+        <div class="mt-4 text-center">
+          <p class="text-gray-400">¿Ya tienes una cuenta? <a href="/login.html" class="text-teal-400 hover:text-teal-300">Inicia sesión</a></p>
         </div>
       </div>
     </main>
 
     <script type="module">
       import api from '/src/config/api.js';
+      import { createNavbar } from '/src/components/navbar.js';
 
+      // Insert navbar
+      document.getElementById('navbar').appendChild(createNavbar());
+
+      // Check if user is already logged in
+      const token = localStorage.getItem('token');
+      if (token) {
+        window.location.href = '/gallery.html';
+      }
+
+      // Handle register form submission
       document.getElementById('registerForm').addEventListener('submit', async (e) => {
         e.preventDefault();
-        
-        const username = document.getElementById('username').value.trim();
-        const email = document.getElementById('email').value.trim();
+
+        const username = document.getElementById('username').value;
+        const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const confirmPassword = document.getElementById('confirmPassword').value;
-
-        // Validaciones básicas
-        if (!username || !email || !password || !confirmPassword) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Por favor, completa todos los campos'
-          });
-          return;
-        }
-
-        if (password.length < 6) {
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'La contraseña debe tener al menos 6 caracteres'
-          });
-          return;
-        }
 
         if (password !== confirmPassword) {
           Swal.fire({
@@ -145,46 +89,26 @@
         }
 
         try {
-          const response = await api.post('/auth/register', { 
-            username, 
-            email, 
-            password 
+          const response = await api.post('/auth/register', { username, email, password });
+          const { token, user } = response.data;
+
+          localStorage.setItem('token', token);
+          localStorage.setItem('user', JSON.stringify(user));
+
+          Swal.fire({
+            icon: 'success',
+            title: '¡Bienvenido!',
+            text: 'Tu cuenta ha sido creada correctamente',
+            timer: 1500
+          }).then(() => {
+            window.location.href = '/gallery.html';
           });
-
-          if (response.data && response.data.token) {
-            const { token, user } = response.data;
-            
-            localStorage.setItem('token', token);
-            localStorage.setItem('user', JSON.stringify(user));
-
-            await Swal.fire({
-              icon: 'success',
-              title: '¡Registro exitoso!',
-              text: 'Tu cuenta ha sido creada correctamente',
-              timer: 1500
-            });
-
-            window.location.href = '/';
-          } else {
-            throw new Error('Respuesta inválida del servidor');
-          }
         } catch (error) {
-          console.error('Error de registro:', error);
-          
-          let errorMessage = 'Error al registrar usuario';
-          
-          if (error.response) {
-            // El servidor respondió con un código de error
-            errorMessage = error.response.data?.error || errorMessage;
-          } else if (error.request) {
-            // La petición fue hecha pero no se recibió respuesta
-            errorMessage = 'No se pudo conectar con el servidor';
-          }
-
+          console.error('Error during registration:', error);
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: errorMessage
+            text: error.response?.data?.error || 'Error al crear la cuenta'
           });
         }
       });

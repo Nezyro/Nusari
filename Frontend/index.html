@@ -4,62 +4,85 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nusari - Inicio</title>
+    <title>Nusari - Comparte tu arte y relatos</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script type="module" src="/src/config/api.js"></script>
+    <script type="module" src="/src/components/navbar.js"></script>
   </head>
-  <body class="bg-gray-900 text-white overflow-x-hidden">
-    <!-- Barra superior -->
-    <nav class="bg-gray-800 shadow sticky top-0 z-50 w-full">
-      <div class="max-w-screen-xl mx-auto flex items-center h-16 px-4 w-full overflow-visible flex-nowrap gap-4">
-        <!-- Logo -->
-        <div class="w-32">
-          <a href="/" class="text-2xl font-bold text-teal-400 whitespace-nowrap hover:text-teal-300 transition-colors duration-300">Nusari</a>
-        </div>
-        <div class="flex-grow"></div>
-        <a href="/login.html" class="text-white hover:text-teal-400 transition-colors duration-300">Iniciar Sesión</a>
-      </div>
-    </nav>
+  <body class="bg-gray-900 text-white">
+    <!-- Navbar will be inserted here -->
+    <div id="navbar"></div>
 
     <!-- Hero Section -->
-    <div class="relative min-h-screen flex items-center justify-center bg-cover bg-center" style="background-image: linear-gradient(rgba(17, 24, 39, 0.8), rgba(17, 24, 39, 0.8)), url('https://images.unsplash.com/photo-1579546929518-9e396f3cc809?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80');">
-      <div class="text-center px-4">
-        <h1 class="text-5xl md:text-6xl font-bold mb-6 text-teal-400">Bienvenido a Nusari</h1>
-        <p class="text-xl md:text-2xl mb-12 text-gray-300 max-w-2xl mx-auto">
-          Tu plataforma para descubrir y compartir arte digital. Explora galerías, lee relatos y conecta con artistas.
+    <section class="relative h-screen flex items-center justify-center">
+      <div class="absolute inset-0 bg-gradient-to-b from-gray-900 to-gray-800 opacity-90"></div>
+      <div class="relative z-10 text-center px-4">
+        <h1 class="text-5xl md:text-6xl font-bold mb-6 text-teal-400">Nusari</h1>
+        <p class="text-xl md:text-2xl mb-8 text-gray-300 max-w-2xl mx-auto">
+          Comparte tu arte y relatos con el mundo. Una plataforma para artistas y escritores.
         </p>
-        <div class="flex flex-col sm:flex-row gap-4 justify-center">
-          <a href="/gallery.html" class="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300">
-            Explorar Galería
+        <div class="flex justify-center space-x-4">
+          <a href="/register.html" class="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-lg transition-colors duration-300">
+            Comenzar
           </a>
-          <a href="/register.html" class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-lg text-lg font-semibold transition-colors duration-300">
-            Crear Cuenta
+          <a href="/gallery.html" class="bg-gray-700 hover:bg-gray-600 text-white px-8 py-3 rounded-lg transition-colors duration-300">
+            Explorar
           </a>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Secciones de características -->
-    <div class="py-20 bg-gray-800">
+    <!-- Features Section -->
+    <section class="py-20 bg-gray-800">
       <div class="max-w-7xl mx-auto px-4">
-        <div class="grid md:grid-cols-3 gap-12">
+        <h2 class="text-3xl font-bold text-center mb-12">¿Por qué Nusari?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div class="text-center">
-            <i class="fas fa-images text-4xl text-teal-400 mb-4"></i>
-            <h3 class="text-xl font-semibold mb-2">Explora Imágenes</h3>
-            <p class="text-gray-400">Descubre obras de arte únicas de artistas de todo el mundo.</p>
+            <i class="fas fa-paint-brush text-4xl text-teal-400 mb-4"></i>
+            <h3 class="text-xl font-semibold mb-2">Comparte tu arte</h3>
+            <p class="text-gray-400">Sube y comparte tus obras de arte con una comunidad apasionada.</p>
           </div>
           <div class="text-center">
             <i class="fas fa-book text-4xl text-teal-400 mb-4"></i>
-            <h3 class="text-xl font-semibold mb-2">Lee Relatos</h3>
-            <p class="text-gray-400">Sumérgete en historias cautivadoras y relatos creativos.</p>
+            <h3 class="text-xl font-semibold mb-2">Escribe relatos</h3>
+            <p class="text-gray-400">Comparte tus historias y conecta con otros escritores.</p>
           </div>
           <div class="text-center">
             <i class="fas fa-users text-4xl text-teal-400 mb-4"></i>
-            <h3 class="text-xl font-semibold mb-2">Únete a la Comunidad</h3>
-            <p class="text-gray-400">Conecta con otros artistas y comparte tu creatividad.</p>
+            <h3 class="text-xl font-semibold mb-2">Conecta</h3>
+            <p class="text-gray-400">Interactúa con otros artistas y escritores de todo el mundo.</p>
           </div>
         </div>
       </div>
-    </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-gray-900">
+      <div class="max-w-4xl mx-auto text-center px-4">
+        <h2 class="text-3xl font-bold mb-6">¿Listo para comenzar?</h2>
+        <p class="text-xl text-gray-400 mb-8">
+          Únete a nuestra comunidad y comienza a compartir tu creatividad con el mundo.
+        </p>
+        <a href="/register.html" class="bg-teal-500 hover:bg-teal-600 text-white px-8 py-3 rounded-lg transition-colors duration-300 inline-block">
+          Crear cuenta
+        </a>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 py-8">
+      <div class="max-w-7xl mx-auto px-4 text-center text-gray-400">
+        <p>&copy; 2024 Nusari. Todos los derechos reservados.</p>
+      </div>
+    </footer>
+
+    <script type="module">
+      import { createNavbar } from '/src/components/navbar.js';
+
+      // Insert navbar
+      document.getElementById('navbar').appendChild(createNavbar());
+    </script>
   </body>
 </html>
