@@ -8,75 +8,19 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-900 text-white overflow-x-hidden">
-    <!-- Barra superior -->
-    <nav class="bg-gray-800 shadow sticky top-0 z-50 w-full">
-      <div class="max-w-screen-xl mx-auto flex items-center h-16 px-4 w-full overflow-visible flex-nowrap gap-4">
-        <!-- Menú hamburguesa -->
-        <button id="toggleSidebar" class="text-white text-2xl hover:text-teal-400 focus:outline-none w-10 flex justify-center transition-colors duration-300">
-          <i class="fas fa-bars"></i>
-        </button>
-
-        <!-- Logo -->
-        <div class="w-32">
-          <a href="/" class="text-2xl font-bold text-teal-400 whitespace-nowrap hover:text-teal-300 transition-colors duration-300">Nusari</a>
-        </div>
-
-        <!-- Buscador -->
-        <div class="flex-grow max-w-[500px] min-w-[200px] px-4">
-          <div class="relative">
-            <input type="text" placeholder="Buscar..." class="w-full bg-gray-700 text-white rounded-full pl-4 pr-10 py-2 focus:outline-none focus:ring-2 focus:ring-teal-400" />
-            <button class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors duration-300">
-              <i class="fas fa-search fa-lg"></i>
-            </button>
-          </div>
-        </div>
-
-        <!-- Botón de login (visible cuando no hay sesión) -->
-        <a href="/login.html" id="loginButton" class="text-white hover:text-teal-400 transition-colors duration-300 hidden">
-          Iniciar Sesión
-        </a>
-
-        <!-- Perfil (visible cuando hay sesión) -->
-        <div class="relative" id="profileDropdown">
-          <button id="profileBtn" class="flex items-center space-x-2 focus:outline-none p-2">
-            <img src="https://via.placeholder.com/32" alt="Perfil" class="w-8 h-8 rounded-full border-2 border-teal-400" />
-            <i class="fas fa-caret-down text-gray-400"></i>
-          </button>
-
-          <div id="profileMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg z-50 divide-y divide-gray-600">
-            <a href="/profile" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
-              <i class="fas fa-user mr-2"></i>Mi Perfil
-            </a>
-            <a href="/settings" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
-              <i class="fas fa-cog mr-2"></i>Configuración
-            </a>
-            <a href="#" onclick="auth.logout()" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
-              <i class="fas fa-sign-out-alt mr-2"></i>Cerrar sesión
-            </a>
-          </div>
-        </div>
-      </div>
-    </nav>
+    <!-- Navbar will be inserted here -->
+    <div id="navbar"></div>
 
     <!-- Contenedor general -->
     <div class="flex pt-16">
       <!-- Sidebar -->
       <aside id="sidebar" class="bg-gray-800 fixed top-0 left-0 h-full w-16 transition-all duration-300 flex flex-col items-start shadow-lg z-40 overflow-hidden">
         <nav class="flex flex-col space-y-4 mt-20 w-full">
-          <a href="/" class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
+          <a href="/gallery.html" class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
             <i class="fas fa-home text-xl w-6 text-center"></i>
             <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Inicio</span>
           </a>
 
-          <a href="/explore" class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
-            <i class="fas fa-compass text-xl w-6 text-center"></i>
-            <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Explorar</span>
-          </a>
-
-          <a href="/trending" class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
-            <i class="fas fa-fire text-xl w-6 text-center"></i>
-            <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Tendencias</span>
-          </a>
 
           <a href="/favorites" class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
             <i class="fas fa-heart text-xl w-6 text-center"></i>
@@ -113,34 +57,11 @@
                 <i class="fas fa-heart"></i>
                 <span id="likeCount">0</span>
               </button>
-              <button id="saveButton" class="flex items-center space-x-2 text-gray-400 hover:text-teal-400 transition-colors duration-300">
-                <i class="fas fa-bookmark"></i>
-                <span>Guardar</span>
-              </button>
-              <button id="shareButton" class="flex items-center space-x-2 text-gray-400 hover:text-teal-400 transition-colors duration-300">
-                <i class="fas fa-share"></i>
-                <span>Compartir</span>
-              </button>
+
             </div>
           </div>
 
-          <!-- Comentarios -->
-          <div class="bg-gray-800 rounded-lg p-6 mt-6">
-            <h2 class="text-2xl font-bold mb-4">Comentarios</h2>
-            
-            <!-- Formulario de comentario (solo visible si hay sesión) -->
-            <div id="commentForm" class="mb-6">
-              <textarea placeholder="Escribe un comentario..." class="w-full bg-gray-700 text-white rounded-lg p-4 focus:outline-none focus:ring-2 focus:ring-teal-400"></textarea>
-              <button class="mt-2 bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg transition-colors duration-300">
-                Comentar
-              </button>
-            </div>
-
-            <!-- Lista de comentarios -->
-            <div id="commentsList" class="space-y-4">
-              <!-- Los comentarios se cargarán dinámicamente -->
-            </div>
-          </div>
+         
         </div>
       </main>
     </div>
@@ -209,7 +130,7 @@
         }
 
         try {
-          const response = await fetch(`http://localhost:3000/api/artworks/${artworkId}`);
+          const response = await fetch(`${backendUrl}/api/artworks/${artworkId}`);
           const artwork = await response.json();
 
           document.getElementById('artworkImage').src = artwork.imageUrl;
@@ -227,29 +148,7 @@
         }
       }
 
-      // Cargar comentarios
-      async function loadComments(artworkId) {
-        try {
-          const response = await fetch(`http://localhost:3000/api/artworks/${artworkId}/comments`);
-          const comments = await response.json();
-
-          const commentsList = document.getElementById('commentsList');
-          commentsList.innerHTML = comments.map(comment => `
-            <div class="flex space-x-4">
-              <img src="${comment.author.avatar}" alt="Avatar" class="w-10 h-10 rounded-full" />
-              <div>
-                <div class="flex items-center space-x-2">
-                  <span class="font-semibold">${comment.author.name}</span>
-                  <span class="text-sm text-gray-400">${new Date(comment.date).toLocaleDateString()}</span>
-                </div>
-                <p class="text-gray-300">${comment.content}</p>
-              </div>
-            </div>
-          `).join('');
-        } catch (error) {
-          console.error('Error cargando comentarios:', error);
-        }
-      }
+      
 
       loadArtwork();
     </script>

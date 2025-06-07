@@ -14,7 +14,7 @@ export function createNavbar() {
 
       <!-- Logo -->
       <div class="w-32">
-        <a href="/" class="text-2xl font-bold text-teal-400 whitespace-nowrap hover:text-teal-300 transition-colors duration-300">Nusari</a>
+        <a href="/gallery.html" class="text-2xl font-bold text-teal-400 whitespace-nowrap hover:text-teal-300 transition-colors duration-300">Nusari</a>
       </div>
 
       <!-- Buscador -->

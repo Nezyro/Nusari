@@ -11,8 +11,22 @@ dotenv.config();
 const app = express();
 
 // Middleware
+
+const allowedOrigins = [
+  'http://localhost:5173',              // Desarrollo local
+  'https://nusari.vercel.app/',         // Producción en Vercel
+  'https://nusari.onrender.com'      // Si Render también hace frontend
+];
+
+
 app.use(cors({
-  origin: 'http://localhost:5173', // Vite's default port
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
   credentials: true
 }));
 app.use(express.json());

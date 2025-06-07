@@ -25,22 +25,10 @@
     <aside id="sidebar"
       class="bg-gray-800 fixed top-0 left-0 h-full w-16 transition-all duration-300 flex flex-col items-start shadow-lg z-40 overflow-hidden">
       <nav class="flex flex-col space-y-4 mt-20 w-full">
-        <a href="/"
+        <a href="/gallery.html"
           class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
           <i class="fas fa-home text-xl w-6 text-center"></i>
           <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Inicio</span>
-        </a>
-
-        <a href="/explore"
-          class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
-          <i class="fas fa-compass text-xl w-6 text-center"></i>
-          <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Explorar</span>
-        </a>
-
-        <a href="/trending"
-          class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
-          <i class="fas fa-fire text-xl w-6 text-center"></i>
-          <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Tendencias</span>
         </a>
 
         <a href="/favorites"
@@ -103,7 +91,7 @@
       </div>
 
       <!-- Grid de obras -->
-      <div id="gallery" class="columns-1 md:columns-2 lg:columns-3 xl:columns-6 gap-4 space-y-4">
+      <div id="gallery" class="columns-1 md:columns-2 lg:columns-3 xl:columns-5 gap-4 space-y-4">
         <!-- Las obras se cargarán aquí dinámicamente -->
       </div>
 
@@ -228,118 +216,117 @@
     }
 
     function createArtworkCard(artwork) {
-  const backendUrl = 'http://localhost:3000'; // Cambia si es necesario
 
-  const card = document.createElement('div');
-  card.className = 'bg-white rounded-lg shadow-md overflow-hidden break-inside-avoid mb-4';
+      const card = document.createElement('div');
+      card.className = 'bg-white rounded-lg shadow-md overflow-hidden break-inside-avoid mb-4';
 
-  // Enlace a artwork.html con el ID
-  const link = document.createElement('a');
-  link.href = `artwork.html?id=${artwork._id}`;
-  link.className = 'block';
+      // Enlace a artwork.html con el ID
+      const link = document.createElement('a');
+      link.href = `artwork.html?id=${artwork._id}`;
+      link.className = 'block';
 
-  // Imagen principal con aspecto cuadrado
-  const imageContainer = document.createElement('div');
-  imageContainer.className = 'relative pt-[100%]';
+      // Imagen principal con aspecto cuadrado
+      const imageContainer = document.createElement('div');
+      imageContainer.className = 'relative pt-[100%]';
 
-  const img = document.createElement('img');
-  const imgSrc = artwork.imageUrl
-    ? backendUrl + (artwork.imageUrl.startsWith('/') ? artwork.imageUrl : '/' + artwork.imageUrl)
-    : backendUrl + '/uploads/artworks/default-image.jpg';
-  img.src = imgSrc;
-  img.alt = artwork.title || 'Artwork sin título';
-  img.className = 'absolute inset-0 w-full h-full object-cover';
+      const img = document.createElement('img');
+      const imgSrc = artwork.imageUrl
+        ? backendUrl + (artwork.imageUrl.startsWith('/') ? artwork.imageUrl : '/' + artwork.imageUrl)
+        : backendUrl + '/uploads/artworks/default-image.jpg';
+      img.src = imgSrc;
+      img.alt = artwork.title || 'Artwork sin título';
+      img.className = 'absolute inset-0 w-full h-full object-cover';
 
-  imageContainer.appendChild(img);
-  link.appendChild(imageContainer);
+      imageContainer.appendChild(img);
+      link.appendChild(imageContainer);
 
-  // Contenido textual
-  const content = document.createElement('div');
-  content.className = 'p-4';
+      // Contenido textual
+      const content = document.createElement('div');
+      content.className = 'p-4';
 
-  // Título
-  const title = document.createElement('h3');
-  title.className = 'text-lg font-semibold text-gray-800 mb-2';
-  title.textContent = artwork.title || 'Sin título';
-  content.appendChild(title);
+      // Título
+      const title = document.createElement('h3');
+      title.className = 'text-lg font-semibold text-gray-800 mb-2';
+      title.textContent = artwork.title || 'Sin título';
+      content.appendChild(title);
 
-  // Información del usuario y likes container
-  const infoContainer = document.createElement('div');
-  infoContainer.className = 'flex items-center justify-between';
+      // Información del usuario y likes container
+      const infoContainer = document.createElement('div');
+      infoContainer.className = 'flex items-center justify-between';
 
-  // Usuario
-  const userInfo = document.createElement('div');
-  userInfo.className = 'flex items-center space-x-2';
+      // Usuario
+      const userInfo = document.createElement('div');
+      userInfo.className = 'flex items-center space-x-2';
 
-  if (artwork.user?.profilePicture && artwork.user.profilePicture !== 'default-profile.jpg') {
-    const profilePic = document.createElement('img');
-    const profilePicSrc = backendUrl + (artwork.user.profilePicture.startsWith('/') ? artwork.user.profilePicture : '/' + artwork.user.profilePicture);
-    profilePic.src = profilePicSrc;
-    profilePic.alt = artwork.user.username || 'Usuario';
-    profilePic.className = 'w-8 h-8 rounded-full object-cover';
-    userInfo.appendChild(profilePic);
-  }
+      if (artwork.user?.profilePicture && artwork.user.profilePicture !== 'default-profile.jpg') {
+        const profilePic = document.createElement('img');
+        const profilePicSrc = backendUrl + (artwork.user.profilePicture.startsWith('/') ? artwork.user.profilePicture : '/' + artwork.user.profilePicture);
+        profilePic.src = profilePicSrc;
+        profilePic.alt = artwork.user.username || 'Usuario';
+        profilePic.className = 'w-8 h-8 rounded-full object-cover';
+        userInfo.appendChild(profilePic);
+      }
 
-  const username = document.createElement('span');
-  username.className = 'text-sm text-gray-600';
-  username.textContent = artwork.user?.username || 'Usuario';
-  userInfo.appendChild(username);
+      const username = document.createElement('span');
+      username.className = 'text-sm text-gray-600';
+      username.textContent = artwork.user?.username || 'Usuario';
+      userInfo.appendChild(username);
 
-  infoContainer.appendChild(userInfo);
+      infoContainer.appendChild(userInfo);
 
-  // Likes
-  const likesDiv = document.createElement('div');
-  likesDiv.className = 'flex items-center space-x-1 text-gray-500 text-sm';
+      // Likes
+      const likesDiv = document.createElement('div');
+      likesDiv.className = 'flex items-center space-x-1 text-gray-500 text-sm';
 
-  const heartIcon = document.createElement('i');
-  heartIcon.className = 'fas fa-heart text-red-500';
-  likesDiv.appendChild(heartIcon);
+      const heartIcon = document.createElement('i');
+      heartIcon.className = 'fas fa-heart text-red-500';
+      likesDiv.appendChild(heartIcon);
 
-  const likesCount = document.createElement('span');
-  likesCount.textContent = artwork.likes?.length || 0;
-  likesDiv.appendChild(likesCount);
+      const likesCount = document.createElement('span');
+      likesCount.textContent = artwork.likes?.length || 0;
+      likesDiv.appendChild(likesCount);
 
-  infoContainer.appendChild(likesDiv);
+      infoContainer.appendChild(likesDiv);
 
-  content.appendChild(infoContainer);
+      content.appendChild(infoContainer);
 
-  card.appendChild(link);
-  card.appendChild(content);
+      card.appendChild(link);
+      card.appendChild(content);
 
-  return card;
-}
+      return card;
+    }
 
 
-function createStoryCard(story) {
-  const card = document.createElement('div');
-  card.className = 'break-inside-avoid mb-4';
+    function createStoryCard(story) {
+      const card = document.createElement('div');
+      card.className = 'break-inside-avoid mb-4';
 
-  card.innerHTML = `
-    <a href="artwork.html?id=${story._id}" class="block">
-      <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-        <div class="p-4">
-          <h3 class="text-lg font-semibold mb-2">${story.title}</h3>
-          <div class="flex items-center justify-between">
-            <div class="flex items-center space-x-2">
-              <img src="/uploads/${story.author.profilePicture}" 
-                   alt="${story.author.username}" 
-                   class="w-8 h-8 rounded-full" />
-              <span class="text-sm text-gray-300">${story.author.username}</span>
-            </div>
-            <div class="flex items-center space-x-4">
-              <button class="text-gray-400 hover:text-teal-400 transition-colors duration-300">
-                <i class="fas fa-heart"></i>
-                <span class="ml-1">${story.likes || 0}</span>
-              </button>
+      card.innerHTML = `
+        <a href="artwork.html?id=${story._id}" class="block">
+          <div class="bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+            <div class="p-4">
+              <h3 class="text-lg font-semibold mb-2">${story.title}</h3>
+              <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                  <img src="/uploads/${story.author.profilePicture}" 
+                      alt="${story.author.username}" 
+                      class="w-8 h-8 rounded-full" />
+                  <span class="text-sm text-gray-300">${story.author.username}</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                  <button class="text-gray-400 hover:text-teal-400 transition-colors duration-300">
+                    <i class="fas fa-heart"></i>
+                    <span class="ml-1">${story.likes || 0}</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
-    </a>
-  `;
+        </a>
+      `;
 
-  return card;
-}
+      return card;
+    }
 
 
     // Event listeners
