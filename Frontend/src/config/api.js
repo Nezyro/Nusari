@@ -1,5 +1,8 @@
 import axios from 'axios';
 
+
+const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
 export const backendUrl = isLocal
   ? 'http://localhost:3000'
   : import.meta.env.VITE_BACKEND_URL;
