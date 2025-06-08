@@ -15,65 +15,99 @@
     <!-- Navbar will be inserted here -->
     <div id="navbar"></div>
 
-    <!-- Contenido principal -->
-    <main class="max-w-4xl mx-auto p-4">
-      <div class="bg-gray-800 rounded-lg shadow-lg p-6">
-        <!-- Información del perfil -->
-        <div class="flex items-center space-x-6 mb-8">
-          <div class="relative">
-            <img id="profileImage" src="/uploads/default-profile.jpg" alt="Profile" 
-              class="w-32 h-32 rounded-full object-cover border-4 border-teal-400" />
-            <label for="profilePicture" class="absolute bottom-0 right-0 bg-teal-500 rounded-full p-2 cursor-pointer hover:bg-teal-600">
-              <i class="fas fa-camera text-white"></i>
-            </label>
-            <input type="file" id="profilePicture" accept="image/*" class="hidden" />
+    <!-- Contenedor general -->
+    <div class="flex pt-16">
+      <!-- Sidebar -->
+      <aside id="sidebar"
+        class="bg-gray-800 fixed top-0 left-0 h-full w-16 transition-all duration-300 flex flex-col items-start shadow-lg z-40 overflow-hidden">
+        <nav class="flex flex-col space-y-4 mt-20 w-full">
+          <a href="/gallery.html"
+            class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
+            <i class="fas fa-home text-xl w-6 text-center"></i>
+            <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Inicio</span>
+          </a>
+
+          <a href="/favorites"
+            class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
+            <i class="fas fa-heart text-xl w-6 text-center"></i>
+            <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Favoritos</span>
+          </a>
+        </nav>
+      </aside>
+
+      <!-- Contenido principal -->
+      <main id="mainContent" class="flex-1 ml-16 p-4 transition-all duration-300">
+        <div class="max-w-4xl mx-auto">
+          <!-- Información del perfil -->
+          <div class="bg-gray-800 rounded-lg shadow-lg p-6 mb-6">
+            <div class="flex items-center space-x-4">
+              <img id="profileImage" src="" alt="Foto de perfil" class="w-24 h-24 rounded-full object-cover" />
+              <div>
+                <h1 id="username" class="text-2xl font-bold"></h1>
+                <p id="email" class="text-gray-400"></p>
+              </div>
+            </div>
           </div>
-          <div>
-            <h1 id="username" class="text-2xl font-bold text-white"></h1>
-            <p id="email" class="text-gray-400"></p>
+
+          <!-- Pestañas de navegación -->
+          <div class="border-b border-gray-700 mb-6">
+            <nav class="flex space-x-8">
+              <button id="artworksTab" class="px-4 py-2 text-teal-400 border-b-2 border-teal-400 font-medium">
+                Imágenes
+              </button>
+              <button id="storiesTab" class="px-4 py-2 text-gray-400 hover:text-teal-400 font-medium">
+                Relatos
+              </button>
+            </nav>
+          </div>
+
+          <!-- Contenedor de imágenes -->
+          <div id="artworksContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- Las imágenes se cargarán aquí -->
+          </div>
+
+          <!-- Contenedor de relatos -->
+          <div id="storiesContainer" class="space-y-6 hidden">
+            <!-- Los relatos se cargarán aquí -->
           </div>
         </div>
-
-        <!-- Formulario de edición -->
-        <form id="profileForm" class="space-y-6">
-          <div>
-            <label for="editUsername" class="block text-sm font-medium text-gray-300">Nombre de usuario</label>
-            <input type="text" id="editUsername" name="username"
-              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
-          </div>
-
-          <div>
-            <label for="editEmail" class="block text-sm font-medium text-gray-300">Correo electrónico</label>
-            <input type="email" id="editEmail" name="email"
-              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
-          </div>
-
-          <div>
-            <label for="currentPassword" class="block text-sm font-medium text-gray-300">Contraseña actual</label>
-            <input type="password" id="currentPassword" name="currentPassword"
-              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
-          </div>
-
-          <div>
-            <label for="newPassword" class="block text-sm font-medium text-gray-300">Nueva contraseña</label>
-            <input type="password" id="newPassword" name="newPassword"
-              class="mt-1 block w-full px-4 py-2 bg-gray-700 border border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400 focus:border-transparent" />
-          </div>
-
-          <button type="submit"
-            class="w-full flex justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-teal-500 hover:bg-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-400 focus:ring-offset-gray-800 transition-colors duration-300">
-            Guardar cambios
-          </button>
-        </form>
-      </div>
-    </main>
+      </main>
+    </div>
 
     <script type="module">
-      import api from '/src/config/api.js';
+      import api, { backendUrl } from '/src/config/api.js';
       import { createNavbar } from '/src/components/navbar.js';
 
       // Insert navbar
-      document.getElementById('navbar').appendChild(createNavbar());
+      const navbar = createNavbar();
+      document.getElementById('navbar').appendChild(navbar);
+
+      // Get the toggle button from the navbar
+      const toggleButton = navbar.querySelector('#toggleSidebar');
+      const sidebar = document.getElementById('sidebar');
+      const mainContent = document.getElementById('mainContent');
+      const sidebarTexts = document.querySelectorAll('.sidebar-text');
+
+      // Sidebar toggle functionality
+      if (toggleButton) {
+        toggleButton.addEventListener('click', () => {
+          if (sidebar.classList.contains('w-16')) {
+            sidebar.classList.replace('w-16', 'w-48');
+            mainContent.classList.replace('ml-16', 'ml-48');
+            sidebarTexts.forEach(text => {
+              text.classList.remove('max-w-0');
+              text.classList.add('max-w-xs');
+            });
+          } else {
+            sidebar.classList.replace('w-48', 'w-16');
+            mainContent.classList.replace('ml-48', 'ml-16');
+            sidebarTexts.forEach(text => {
+              text.classList.remove('max-w-xs');
+              text.classList.add('max-w-0');
+            });
+          }
+        });
+      }
 
       // Check if user is logged in
       const token = localStorage.getItem('token');
@@ -89,114 +123,164 @@
           
           document.getElementById('username').textContent = userData.username;
           document.getElementById('email').textContent = userData.email;
-          document.getElementById('editUsername').value = userData.username;
-          document.getElementById('editEmail').value = userData.email;
           
-          if (userData.profileImage) {
-            document.getElementById('profileImage').src = `/uploads/${userData.profileImage}`;
-          }
+          // Construir URL de la imagen de perfil
+          const profileImageUrl = userData.profileImage
+            ? `${backendUrl}/${userData.profileImage.replace(/^\//, '')}`
+            : `${backendUrl}/uploads/default-profile.jpg`;
+          
+          document.getElementById('profileImage').src = profileImageUrl;
         } catch (error) {
           console.error('Error loading user data:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Error al cargar los datos del usuario'
-          });
         }
       };
 
-      // Handle profile picture upload
-      document.getElementById('profilePicture').addEventListener('change', async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const formData = new FormData();
-        formData.append('profilePicture', file);
-
+      // Load user artworks
+      const loadUserArtworks = async () => {
         try {
-          const response = await api.post('/auth/profile/picture', formData, {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
-          });
-
-          const { user } = response.data;
-          document.getElementById('profileImage').src = `/uploads/${user.profileImage}`;
-
-          // Update navbar profile image
-          const navbarProfileImage = document.querySelector('#profileButton img');
-          if (navbarProfileImage) {
-            navbarProfileImage.src = `/uploads/${user.profileImage}`;
+          console.log('Cargando obras del usuario...');
+          const token = localStorage.getItem('token');
+          if (!token) {
+            throw new Error('No hay token de autenticación');
           }
-
-          Swal.fire({
-            icon: 'success',
-            title: '¡Éxito!',
-            text: 'Imagen de perfil actualizada correctamente',
-            timer: 1500
+          
+          // Primero obtenemos el ID del usuario
+          const userResponse = await api.get('/auth/me');
+          const userId = userResponse.data._id;
+          
+          // Luego obtenemos las obras usando el ID del usuario
+          const response = await api.get(`/artworks?user=${userId}`);
+          console.log('Respuesta de obras:', response);
+          const artworks = response.data;
+          
+          const container = document.getElementById('artworksContainer');
+          container.innerHTML = '';
+          
+          if (artworks.length === 0) {
+            container.innerHTML = '<p class="text-gray-400 col-span-full text-center">No has subido ninguna imagen todavía.</p>';
+            return;
+          }
+          
+          artworks.forEach(artwork => {
+            const imageUrl = artwork.imageUrl
+              ? `${backendUrl}/${artwork.imageUrl.replace(/^\//, '')}`
+              : `${backendUrl}/uploads/artworks/default-image.jpg`;
+            
+            const card = document.createElement('div');
+            card.className = 'bg-gray-800 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300';
+            card.innerHTML = `
+              <a href="/artwork.html?id=${artwork._id}&type=artwork" class="block">
+                <img src="${imageUrl}" alt="${artwork.title}" class="w-full h-48 object-cover" />
+                <div class="p-4">
+                  <h3 class="font-semibold text-lg mb-2">${artwork.title}</h3>
+                  <p class="text-gray-400 text-sm">${artwork.description || 'Sin descripción'}</p>
+                </div>
+              </a>
+            `;
+            container.appendChild(card);
           });
         } catch (error) {
-          console.error('Error uploading profile picture:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: error.response?.data?.error || 'Error al subir la imagen'
+          console.error('Error loading user artworks:', error);
+          const container = document.getElementById('artworksContainer');
+          container.innerHTML = `
+            <div class="text-center py-8">
+              <p class="text-red-500">Error al cargar las obras: ${error.message}</p>
+            </div>
+          `;
+        }
+      };
+
+      // Load user stories
+      async function loadUserStories() {
+        try {
+          console.log('Cargando historias del usuario...');
+          const response = await api.get('/stories/user');
+          console.log('Respuesta de historias:', response);
+          const stories = response.data;
+          
+          const container = document.getElementById('storiesContainer');
+          container.innerHTML = '';
+
+          if (stories.length === 0) {
+            container.innerHTML = `
+              <div class="text-center py-8">
+                <p class="text-gray-500">No has publicado ningún relato todavía.</p>
+                <a href="/Frontend/create-story.html" class="mt-4 inline-block bg-teal-500 text-white px-4 py-2 rounded-lg hover:bg-teal-600 transition-colors">
+                  Crear mi primer relato
+                </a>
+              </div>
+            `;
+            return;
+          }
+
+          stories.forEach(story => {
+            const storyElement = document.createElement('div');
+            storyElement.className = 'bg-gray-800 rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow duration-300';
+            storyElement.innerHTML = `
+              <a href="/artwork.html?id=${story._id}&type=story" class="block">
+                <h3 class="font-semibold text-xl mb-2">${story.title}</h3>
+                <p class="text-gray-400">${story.content.substring(0, 200)}${story.content.length > 200 ? '...' : ''}</p>
+                <div class="flex items-center justify-between mt-4">
+                  <p class="text-sm text-gray-500">${new Date(story.createdAt).toLocaleDateString()}</p>
+                  <div class="flex items-center space-x-4">
+                    <span class="text-gray-400"><i class="fas fa-heart"></i> ${story.likes.length}</span>
+                    <span class="text-gray-400"><i class="fas fa-comment"></i> ${story.comments.length}</span>
+                  </div>
+                </div>
+              </a>
+            `;
+            container.appendChild(storyElement);
           });
+        } catch (error) {
+          console.error('Error loading user stories:', error);
+          const container = document.getElementById('storiesContainer');
+          container.innerHTML = `
+            <div class="text-center py-8">
+              <p class="text-red-500">Error al cargar los relatos: ${error.message}</p>
+            </div>
+          `;
+        }
+      }
+
+      // Tab switching functionality
+      const artworksTab = document.getElementById('artworksTab');
+      const storiesTab = document.getElementById('storiesTab');
+      const artworksContainer = document.getElementById('artworksContainer');
+      const storiesContainer = document.getElementById('storiesContainer');
+
+      artworksTab.addEventListener('click', () => {
+        console.log('Cambiando a pestaña de imágenes');
+        artworksTab.classList.add('text-teal-400', 'border-b-2', 'border-teal-400');
+        artworksTab.classList.remove('text-gray-400');
+        storiesTab.classList.remove('text-teal-400', 'border-b-2', 'border-teal-400');
+        storiesTab.classList.add('text-gray-400');
+        artworksContainer.classList.remove('hidden');
+        storiesContainer.classList.add('hidden');
+      });
+
+      storiesTab.addEventListener('click', async () => {
+        console.log('Cambiando a pestaña de relatos');
+        storiesTab.classList.add('text-teal-400', 'border-b-2', 'border-teal-400');
+        storiesTab.classList.remove('text-gray-400');
+        artworksTab.classList.remove('text-teal-400', 'border-b-2', 'border-teal-400');
+        artworksTab.classList.add('text-gray-400');
+        storiesContainer.classList.remove('hidden');
+        artworksContainer.classList.add('hidden');
+        
+        try {
+          console.log('Iniciando carga de relatos...');
+          await loadUserStories();
+          console.log('Relatos cargados correctamente');
+        } catch (error) {
+          console.error('Error al cargar relatos:', error);
         }
       });
 
-      // Handle profile update
-      document.getElementById('profileForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const username = document.getElementById('editUsername').value;
-        const email = document.getElementById('editEmail').value;
-        const currentPassword = document.getElementById('currentPassword').value;
-        const newPassword = document.getElementById('newPassword').value;
-
-        try {
-          const response = await api.put('/auth/profile', {
-            username,
-            email,
-            currentPassword: currentPassword || undefined,
-            newPassword: newPassword || undefined
-          });
-
-          const { user } = response.data;
-          document.getElementById('username').textContent = user.username;
-          document.getElementById('email').textContent = user.email;
-
-          // Update navbar username
-          const navbarUsername = document.querySelector('#profileButton span');
-          if (navbarUsername) {
-            navbarUsername.textContent = user.username;
-          }
-
-          // Update localStorage
-          localStorage.setItem('user', JSON.stringify(user));
-
-          Swal.fire({
-            icon: 'success',
-            title: '¡Éxito!',
-            text: 'Perfil actualizado correctamente',
-            timer: 1500
-          });
-
-          // Clear password fields
-          document.getElementById('currentPassword').value = '';
-          document.getElementById('newPassword').value = '';
-        } catch (error) {
-          console.error('Error updating profile:', error);
-          Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: error.response?.data?.error || 'Error al actualizar el perfil'
-          });
-        }
-      });
-
-      // Load initial user data
-      loadUserData();
+      // Load initial data
+      console.log('Cargando datos iniciales...');
+      await loadUserData();
+      await loadUserArtworks();
+      console.log('Datos iniciales cargados');
     </script>
   </body>
 </html>

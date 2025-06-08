@@ -1,17 +1,11 @@
 import axios from 'axios';
 
-
-const isLocal = location.hostname === 'localhost' || location.hostname === '127.0.0.1';
-
-export const backendUrl = isLocal
-  ? 'http://localhost:3000'
-  : import.meta.env.VITE_BACKEND_URL;
+export const backendUrl = import.meta.env.VITE_BACKEND_URL || 'http://localhost:3000';
+export const apiUrl = `${backendUrl}/api`;
 
 const api = axios.create({
-  baseURL: backendUrl,
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  baseURL: apiUrl,
+  headers: { 'Content-Type': 'application/json' },
 });
 
 // Interceptor para añadir el token a las peticiones

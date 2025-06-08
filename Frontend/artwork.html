@@ -1,41 +1,51 @@
 <!DOCTYPE html>
 <html lang="es" class="scroll-smooth">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Nusari - Obra de Arte</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script type="module" src="/src/components/navbar.js"></script>
-  </head>
-  <body class="bg-gray-900 text-white overflow-x-hidden">
-    <!-- Navbar will be inserted here -->
-    <div id="navbar"></div>
 
-    <!-- Contenedor general -->
-    <div class="flex pt-16">
-      <!-- Sidebar -->
-      <aside id="sidebar" class="bg-gray-800 fixed top-0 left-0 h-full w-16 transition-all duration-300 flex flex-col items-start shadow-lg z-40 overflow-hidden">
-        <nav class="flex flex-col space-y-4 mt-20 w-full">
-          <a href="/gallery.html" class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
-            <i class="fas fa-home text-xl w-6 text-center"></i>
-            <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Inicio</span>
-          </a>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Nusari - Contenido</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script type="module" src="/src/components/navbar.js"></script>
+</head>
 
+<body class="bg-gray-900 text-white overflow-x-hidden">
+  <!-- Navbar will be inserted here -->
+  <div id="navbar"></div>
 
-          <a href="/favorites" class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
-            <i class="fas fa-heart text-xl w-6 text-center"></i>
-            <span class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Favoritos</span>
-          </a>
-        </nav>
-      </aside>
+  <!-- Contenedor general -->
+  <div class="flex pt-16">
+    <!-- Sidebar -->
+    <aside id="sidebar"
+      class="bg-gray-800 fixed top-0 left-0 h-full w-16 transition-all duration-300 flex flex-col items-start shadow-lg z-40 overflow-hidden">
+      <nav class="flex flex-col space-y-4 mt-20 w-full">
+        <a href="/gallery.html"
+          class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
+          <i class="fas fa-home text-xl w-6 text-center"></i>
+          <span
+            class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Inicio</span>
+        </a>
 
-      <!-- Contenido principal -->
-      <main id="mainContent" class="flex-1 ml-16 p-4 transition-all duration-300">
-        <div class="max-w-4xl mx-auto">
+        <a href="/favorites"
+          class="flex items-center space-x-4 px-4 py-3 text-gray-400 hover:text-teal-400 group transition-colors duration-300">
+          <i class="fas fa-heart text-xl w-6 text-center"></i>
+          <span
+            class="sidebar-text overflow-hidden whitespace-nowrap max-w-0 group-hover:max-w-xs transition-all duration-300 ease-in-out">Favoritos</span>
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Contenido principal -->
+    <main id="mainContent" class="flex-1 ml-16 p-4 transition-all duration-300">
+      <div class="max-w-4xl mx-auto">
+        <!-- Contenedor para obra de arte -->
+        <div id="artworkContainer" class="hidden">
           <!-- Imagen principal -->
           <div class="bg-gray-800 rounded-lg overflow-hidden mb-6">
-            <img id="artworkImage" src="" alt="Obra de arte" class="w-full h-auto" />
+            <div class="flex items-center justify-center">
+              <img id="artworkImage" src="" alt="Obra de arte" class="max-w-full max-h-[70vh] min-w-[600px] w-auto h-auto object-contain" />
+            </div>
           </div>
 
           <!-- Información de la obra -->
@@ -45,47 +55,73 @@
 
             <!-- Información del autor -->
             <div class="flex items-center mb-6">
-              <img id="authorAvatar" src="" alt="Avatar del autor" class="w-12 h-12 rounded-full mr-4" />
+              <img id="artworkAuthorAvatar" src="" alt="Avatar del autor" class="w-12 h-12 rounded-full mr-4" />
               <div>
-                <h3 id="authorName" class="font-semibold"></h3>
-                <p id="uploadDate" class="text-sm text-gray-400"></p>
+                <h3 id="artworkAuthorName" class="font-semibold"></h3>
+                <p id="artworkUploadDate" class="text-sm text-gray-400"></p>
               </div>
             </div>
 
             <!-- Acciones -->
             <div class="flex space-x-4">
-              <button id="likeButton" class="flex items-center space-x-2 text-gray-400 hover:text-teal-400 transition-colors duration-300">
+              <button id="artworkLikeButton"
+                class="flex items-center space-x-2 text-gray-400 hover:text-teal-400 transition-colors duration-300">
                 <i class="fas fa-heart"></i>
-                <span id="likeCount">0</span>
+                <span id="artworkLikeCount">0</span>
               </button>
-
             </div>
           </div>
-
-         
         </div>
-      </main>
-    </div>
 
-    <script src="/js/auth.js"></script>
-    <script>
-      // Verificar autenticación al cargar la página
-      document.addEventListener('DOMContentLoaded', async () => {
-        await auth.updateAuthUI();
-        
-        // Ocultar formulario de comentarios si no hay sesión
-        const isAuthenticated = await auth.checkAuth();
-        const commentForm = document.getElementById('commentForm');
-        if (commentForm) {
-          commentForm.style.display = isAuthenticated ? 'block' : 'none';
-        }
-      });
+        <!-- Contenedor para historia -->
+        <div id="storyContainer" class="hidden">
+          <div class="bg-gray-800 rounded-lg p-6">
+            <h1 id="storyTitle" class="text-3xl font-bold mb-4"></h1>
+            
+            <!-- Contenido de la historia con formato -->
+            <div id="storyContent" class="text-gray-300 mb-6 prose prose-invert max-w-none">
+              <div class="whitespace-pre-wrap"></div>
+            </div>
 
-      const sidebar = document.getElementById('sidebar');
-      const toggleButton = document.getElementById('toggleSidebar');
-      const mainContent = document.getElementById('mainContent');
-      const sidebarTexts = document.querySelectorAll('.sidebar-text');
+            <!-- Información del autor -->
+            <div class="flex items-center mb-6">
+              <img id="storyAuthorAvatar" src="" alt="Avatar del autor" class="w-12 h-12 rounded-full mr-4" />
+              <div>
+                <h3 id="storyAuthorName" class="font-semibold"></h3>
+                <p id="storyUploadDate" class="text-sm text-gray-400"></p>
+              </div>
+            </div>
 
+            <!-- Acciones -->
+            <div class="flex space-x-4">
+              <button id="storyLikeButton"
+                class="flex items-center space-x-2 text-gray-400 hover:text-teal-400 transition-colors duration-300">
+                <i class="fas fa-heart"></i>
+                <span id="storyLikeCount">0</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script type="module">
+    import api, { backendUrl } from '/src/config/api.js';
+    import { createNavbar } from '/src/components/navbar.js';
+
+    // Insertar navbar
+    const navbar = createNavbar();
+    document.getElementById('navbar').appendChild(navbar);
+
+// Get the toggle button from the navbar
+const toggleButton = navbar.querySelector('#toggleSidebar');
+    const sidebar = document.getElementById('sidebar');
+    const mainContent = document.getElementById('mainContent');
+    const sidebarTexts = document.querySelectorAll('.sidebar-text');
+
+    // Sidebar toggle functionality
+    if (toggleButton) {
       toggleButton.addEventListener('click', () => {
         if (sidebar.classList.contains('w-16')) {
           sidebar.classList.replace('w-16', 'w-48');
@@ -103,55 +139,139 @@
           });
         }
       });
+    }
 
-      function setupDropdown(buttonId, menuId) {
-        const button = document.getElementById(buttonId);
-        const menu = document.getElementById(menuId);
+    // Obtener parámetros de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const id = urlParams.get('id');
+    const type = urlParams.get('type') || 'artwork';
 
-        button.addEventListener('click', (e) => {
-          e.stopPropagation();
-          menu.classList.toggle('hidden');
-        });
+    if (!id) {
+      document.getElementById('mainContent').innerHTML = '<p class="text-red-500">Contenido no encontrado.</p>';
+      throw new Error('Falta el ID del contenido.');
+    }
 
-        document.addEventListener('click', (e) => {
-          if (!menu.contains(e.target) && !button.contains(e.target)) {
-            menu.classList.add('hidden');
-          }
-        });
-      }
-
-      setupDropdown('profileBtn', 'profileMenu');
-
-      // Cargar datos de la obra
-      async function loadArtwork() {
-        const artworkId = new URLSearchParams(window.location.search).get('id');
-        if (!artworkId) {
-          window.location.href = '/gallery.html';
-          return;
-        }
-
+    async function loadContent() {
+      try {
+        console.log('Cargando contenido...', { id });
+        
+        // Intentar primero como obra de arte
         try {
-          const response = await fetch(`${backendUrl}/api/artworks/${artworkId}`);
-          const artwork = await response.json();
+          console.log('Intentando cargar como obra de arte...');
+          const artworkResponse = await api.get(`/artworks/${id}`);
+          console.log('Respuesta de obra de arte:', artworkResponse);
+          const artwork = artworkResponse.data;
+          
+          if (artwork) {
+            console.log('Obra encontrada:', artwork);
+            // Mostrar contenedor de obra
+            document.getElementById('artworkContainer').classList.remove('hidden');
+            document.getElementById('storyContainer').classList.add('hidden');
 
-          document.getElementById('artworkImage').src = artwork.imageUrl;
-          document.getElementById('artworkTitle').textContent = artwork.title;
-          document.getElementById('artworkDescription').textContent = artwork.description;
-          document.getElementById('authorAvatar').src = artwork.author.avatar;
-          document.getElementById('authorName').textContent = artwork.author.name;
-          document.getElementById('uploadDate').textContent = new Date(artwork.uploadDate).toLocaleDateString();
-          document.getElementById('likeCount').textContent = artwork.likes;
+            // Llenar información de la obra
+            document.getElementById('artworkTitle').textContent = artwork.title || 'Sin título';
+            document.getElementById('artworkDescription').textContent = artwork.description || '';
 
-          // Cargar comentarios
-          loadComments(artworkId);
+            // Construir URL de la imagen
+            const imageUrl = artwork.imageUrl
+              ? `${backendUrl}/${artwork.imageUrl.replace(/^\//, '')}`
+              : `${backendUrl}/uploads/artworks/default-image.jpg`;
+            
+            console.log('URL de la imagen:', imageUrl);
+            document.getElementById('artworkImage').src = imageUrl;
+            document.getElementById('artworkImage').alt = artwork.title || 'Obra';
+
+            // Información del usuario
+            const user = artwork.user || {};
+            document.getElementById('artworkAuthorName').textContent = user.username || 'Usuario';
+            
+            // Construir URL de la imagen de perfil
+            const profileImageUrl = user.profileImage
+              ? `${backendUrl}/${user.profileImage.replace(/^\//, '')}`
+              : `${backendUrl}/uploads/default-profile.jpg`;
+            
+            console.log('URL de la imagen de perfil:', profileImageUrl);
+            document.getElementById('artworkAuthorAvatar').src = profileImageUrl;
+            document.getElementById('artworkUploadDate').textContent = new Date(artwork.createdAt).toLocaleDateString();
+
+            // Quitar la referencia a likes
+            document.getElementById('artworkLikeCount').textContent = '0';
+            return;
+          }
         } catch (error) {
-          console.error('Error cargando la obra:', error);
+          console.error('Error al cargar obra de arte:', error);
+          if (error.response) {
+            console.error('Detalles del error:', error.response.data);
+          }
+          console.log('No es una obra de arte, intentando como historia...');
         }
+
+        // Si no es una obra de arte, intentar como historia
+        console.log('Intentando cargar como historia...');
+        const storyResponse = await api.get(`/stories/${id}`);
+        console.log('Respuesta de historia:', storyResponse);
+        const story = storyResponse.data;
+        
+        if (!story) {
+          throw new Error('No se encontró el contenido');
+        }
+        
+        console.log('Historia encontrada:', story);
+        // Mostrar contenedor de historia
+        document.getElementById('storyContainer').classList.remove('hidden');
+        document.getElementById('artworkContainer').classList.add('hidden');
+
+        // Llenar información de la historia
+        document.getElementById('storyTitle').textContent = story.title || 'Sin título';
+        document.getElementById('storyContent').querySelector('div').textContent = story.content || '';
+
+        // Información del autor
+        const author = story.author || {};
+        document.getElementById('storyAuthorName').textContent = author.username || 'Usuario';
+        
+        // Construir URL de la imagen de perfil del autor
+        const authorProfileImageUrl = author.profileImage
+          ? `${backendUrl}/${author.profileImage.replace(/^\//, '')}`
+          : `${backendUrl}/uploads/default-profile.jpg`;
+        
+        console.log('URL de la imagen de perfil del autor:', authorProfileImageUrl);
+        document.getElementById('storyAuthorAvatar').src = authorProfileImageUrl;
+        document.getElementById('storyUploadDate').textContent = new Date(story.createdAt).toLocaleDateString();
+
+        // Quitar la referencia a likes
+        document.getElementById('storyLikeCount').textContent = '0';
+      } catch (error) {
+        console.error('Error al cargar el contenido:', error);
+        
+        let errorMessage = 'Error al cargar el contenido.';
+        if (error.response) {
+          console.error('Detalles del error:', error.response.data);
+          errorMessage += ` Status: ${error.response.status}`;
+          if (error.response.data && error.response.data.error) {
+            errorMessage += ` - ${error.response.data.error}`;
+            if (error.response.data.details) {
+              errorMessage += `\nDetalles: ${error.response.data.details}`;
+            }
+          }
+        }
+        
+        document.getElementById('mainContent').innerHTML = `
+          <div class="bg-red-500 text-white p-4 rounded-lg">
+            <p class="font-bold">Error</p>
+            <p>${errorMessage}</p>
+            <p class="text-sm mt-2">Por favor, verifica que la URL sea correcta y que tengas los permisos necesarios.</p>
+          </div>`;
       }
+    }
 
-      
+    // Verificar si el usuario está autenticado
+    const token = localStorage.getItem('token');
+    if (!token) {
+      window.location.href = '/login.html';
+    } else {
+      loadContent();
+    }
+  </script>
+</body>
 
-      loadArtwork();
-    </script>
-  </body>
-</html> 
+</html>

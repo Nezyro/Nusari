@@ -47,6 +47,27 @@ const getStory = async (req, res) => {
   }
 };
 
+// Get user's stories
+const getUserStories = async (req, res) => {
+  try {
+    console.log('Buscando historias del usuario:', req.user._id);
+    
+    const stories = await Story.find({ author: req.user._id })
+      .populate('author', 'username profileImage')
+      .sort({ createdAt: -1 });
+    
+    console.log('Historias encontradas:', stories.length);
+    res.json(stories);
+  } catch (error) {
+    console.error('Error al obtener las historias del usuario:', error);
+    res.status(500).json({ 
+      error: 'Error al obtener tus relatos',
+      details: error.message,
+      stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
+    });
+  }
+};
+
 // Update story
 const updateStory = async (req, res) => {
   try {
@@ -64,7 +85,7 @@ const updateStory = async (req, res) => {
       req.params.id,
       req.body,
       { new: true }
-    );
+    ).populate('author', 'username profileImage');
 
     res.json(updatedStory);
   } catch (error) {
@@ -85,7 +106,7 @@ const deleteStory = async (req, res) => {
       return res.status(403).json({ message: 'Not authorized' });
     }
 
-    await story.remove();
+    await story.deleteOne();
     res.json({ message: 'Story deleted' });
   } catch (error) {
     res.status(500).json({ message: 'Error deleting story', error: error.message });
@@ -96,6 +117,7 @@ module.exports = {
   createStory,
   getStories,
   getStory,
+  getUserStories,
   updateStory,
   deleteStory
 }; 
