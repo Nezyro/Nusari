@@ -13,7 +13,7 @@
   </head>
 
   <body class="bg-gray-900 text-white">
-    <!-- Navbar will be inserted here -->
+    <!-- Navbar -->
     <div id="navbar"></div>
 
     <!-- Contenido principal -->
@@ -61,16 +61,16 @@
       import api from '/src/config/api.js';
       import { createNavbar } from '/src/components/navbar.js';
 
-      // Insert navbar
+      // Insertar barra de navegación
       document.getElementById('navbar').appendChild(createNavbar());
 
-      // Check if user is already logged in
+      // Comprobar si el user esta loggeado
       const token = localStorage.getItem('token');
       if (token) {
         window.location.href = '/gallery.html';
       }
 
-      // Handle register form submission
+      // Manejar el envío del formulario de registro
       document.getElementById('registerForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 

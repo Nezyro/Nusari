@@ -2,7 +2,7 @@ const Artwork = require('../models/Artwork');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Create new artwork
+// Crear nueva obra de arte
 const createArtwork = async (req, res) => {
   try {
     console.log('Request body:', req.body);
@@ -18,9 +18,9 @@ const createArtwork = async (req, res) => {
       return res.status(400).json({ error: 'Todos los campos son requeridos' });
     }
 
-    // Convert the file path to a URL-friendly format
+    // Convertir la ruta del archivo a un formato URL
     const imageUrl = path.join('uploads', 'artworks', path.basename(req.file.path))
-      .replace(/\\/g, '/'); // Convert Windows path to URL format
+      .replace(/\\/g, '/'); // Convertir ruta de Windows a formato URL
 
     const artwork = new Artwork({
       title,
@@ -40,7 +40,7 @@ const createArtwork = async (req, res) => {
   }
 };
 
-// Get all artworks
+// Obtener todas las obras
 const getArtworks = async (req, res) => {
   try {
     const query = {};
@@ -62,7 +62,7 @@ const getArtworks = async (req, res) => {
   }
 };
 
-// Get single artwork
+// Obtener una obra específica
 const getArtwork = async (req, res) => {
   try {
     console.log('Buscando obra con ID:', req.params.id);
@@ -91,7 +91,7 @@ const getArtwork = async (req, res) => {
   }
 };
 
-// Get user's artworks
+// Obtener obras de un usuario
 const getUserArtworks = async (req, res) => {
   try {
     console.log('Buscando obras del usuario:', req.user._id);
@@ -112,70 +112,10 @@ const getUserArtworks = async (req, res) => {
   }
 };
 
-// Update artwork
-const updateArtwork = async (req, res) => {
-  try {
-    const artwork = await Artwork.findById(req.params.id);
-    
-    if (!artwork) {
-      return res.status(404).json({ error: 'Obra no encontrada' });
-    }
-
-    if (artwork.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: 'No autorizado' });
-    }
-
-    // If there's a new image, delete the old one
-    if (req.file) {
-      const oldImagePath = path.join(__dirname, '..', artwork.imageUrl);
-      await fs.unlink(oldImagePath);
-      req.body.imageUrl = path.join('uploads', 'artworks', path.basename(req.file.path))
-        .replace(/\\/g, '/');
-    }
-
-    const updatedArtwork = await Artwork.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    ).populate('user', 'username profileImage');
-
-    res.json(updatedArtwork);
-  } catch (error) {
-    console.error('Error updating artwork:', error);
-    res.status(500).json({ error: 'Error al actualizar la obra' });
-  }
-};
-
-// Delete artwork
-const deleteArtwork = async (req, res) => {
-  try {
-    const artwork = await Artwork.findById(req.params.id);
-    
-    if (!artwork) {
-      return res.status(404).json({ error: 'Obra no encontrada' });
-    }
-
-    if (artwork.user.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ error: 'No autorizado' });
-    }
-
-    // Delete the image file
-    const imagePath = path.join(__dirname, '..', artwork.imageUrl);
-    await fs.unlink(imagePath).catch(console.error);
-
-    await artwork.deleteOne();
-    res.json({ message: 'Obra eliminada correctamente' });
-  } catch (error) {
-    console.error('Error deleting artwork:', error);
-    res.status(500).json({ error: 'Error al eliminar la obra' });
-  }
-};
 
 module.exports = {
   createArtwork,
   getArtworks,
   getArtwork,
-  getUserArtworks,
-  updateArtwork,
-  deleteArtwork
+  getUserArtworks
 }; 

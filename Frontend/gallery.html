@@ -16,11 +16,11 @@
 
 <body class="bg-gray-900 text-white overflow-x-hidden">
 
-  <!-- Navbar will be inserted here -->
+  <!-- Navbar -->
   <div id="navbar"></div>
 
   <!-- Contenedor general -->
-  <div class="flex pt-16">
+  <div class="flex">
     <!-- Sidebar -->
     <aside id="sidebar"
       class="bg-gray-800 fixed top-0 left-0 h-full w-16 transition-all duration-300 flex flex-col items-start shadow-lg z-40 overflow-hidden">
@@ -101,7 +101,7 @@
     const gallery = document.getElementById('gallery');
     const typeSelect = document.getElementById('type');
     const loadedItems = new Set();
-    const limit = 15; // Límite fijo de 15 elementos
+    const limit = 15; // Límite fijo
 
     // Función para cargar contenido
     async function loadContent() {

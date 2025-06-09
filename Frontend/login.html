@@ -12,7 +12,7 @@
     <script type="module" src="/src/components/navbar.js"></script>
   </head>
   <body class="bg-gray-900 text-white">
-    <!-- Navbar will be inserted here -->
+    <!-- Navbar -->
     <div id="navbar"></div>
 
     <!-- Contenido principal -->
@@ -48,16 +48,16 @@
       import api from '/src/config/api.js';
       import { createNavbar } from '/src/components/navbar.js';
 
-      // Insert navbar
+      // Insertar navbar
       document.getElementById('navbar').appendChild(createNavbar());
 
-      // Check if user is already logged in
+      // Comprobar que user este loggeado
       const token = localStorage.getItem('token');
       if (token) {
         window.location.href = '/gallery.html';
       }
 
-      // Handle login form submission
+      // Manejar el envío del formulario de inicio de sesión
       document.getElementById('loginForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 

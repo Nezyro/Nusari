@@ -12,7 +12,7 @@
     <script type="module" src="/src/components/navbar.js"></script>
   </head>
   <body class="bg-gray-900 text-white">
-    <!-- Navbar will be inserted here -->
+    <!-- Navbar -->
     <div id="navbar"></div>
 
     <!-- Contenedor general -->
@@ -102,7 +102,7 @@
       import api, { backendUrl } from '/src/config/api.js';
       import { createNavbar } from '/src/components/navbar.js';
 
-      // Insert navbar
+      // Insertar navbar
       const navbar = createNavbar();
       document.getElementById('navbar').appendChild(navbar);
 
@@ -133,13 +133,13 @@
         });
       }
 
-      // Check if user is logged in
+      // Comprobar si el user esta loggeado
       const token = localStorage.getItem('token');
       if (!token) {
         window.location.href = '/login.html';
       }
 
-      // Load user data
+      // Cargar user data
       const loadUserData = async () => {
         try {
           const response = await api.get('/auth/me');
@@ -157,7 +157,7 @@
         }
       };
 
-      // Handle settings form submission
+      // Manejar el envío del formulario de configuración
       document.getElementById('settingsForm').addEventListener('submit', async (e) => {
         e.preventDefault();
 
@@ -186,13 +186,13 @@
 
           const { user } = response.data;
 
-          // Update navbar username
+          // Actualizar nombre de usuario en la barra de navegación
           const navbarUsername = document.querySelector('#profileButton span');
           if (navbarUsername) {
             navbarUsername.textContent = user.username;
           }
 
-          // Update localStorage
+          // Actualizar localStorage
           localStorage.setItem('user', JSON.stringify(user));
 
           Swal.fire({
@@ -202,12 +202,12 @@
             timer: 1500
           });
 
-          // Clear password fields
+          // Limpiar campos de contraseña
           document.getElementById('currentPassword').value = '';
           document.getElementById('newPassword').value = '';
           document.getElementById('confirmPassword').value = '';
         } catch (error) {
-          console.error('Error updating settings:', error);
+          console.error('Error al actualizar la configuración:', error);
           Swal.fire({
             icon: 'error',
             title: 'Error',
@@ -216,7 +216,7 @@
         }
       });
 
-      // Handle account deletion
+      // Manejar eliminación de cuenta
       document.getElementById('deleteAccountBtn').addEventListener('click', async () => {
         const result = await Swal.fire({
           icon: 'warning',
@@ -235,7 +235,7 @@
             localStorage.removeItem('user');
             window.location.href = '/login.html';
           } catch (error) {
-            console.error('Error deleting account:', error);
+            console.error('Error al eliminar la cuenta:', error);
             Swal.fire({
               icon: 'error',
               title: 'Error',
@@ -245,7 +245,7 @@
         }
       });
 
-      // Load initial user data
+      // Cargar datos iniciales del usuario
       loadUserData();
     </script>
   </body>

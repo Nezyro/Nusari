@@ -4,18 +4,17 @@ const cors = require('cors');
 const dotenv = require('dotenv');
 const path = require('path');
 
-// Load environment variables
+// Cargar variables de entorno
 dotenv.config();
 
-// Create Express app
+// Crear aplicación Express
 const app = express();
 
 // Middleware
-
 const allowedOrigins = [
-  'http://localhost:5173',              // Desarrollo local
-  'https://nusari.vercel.app/',         // Producción en Vercel
-  'https://nusari.onrender.com'      // Si Render también hace frontend
+  'http://localhost:5173',              
+  'https://nusari.vercel.app/',         
+  'https://nusari.onrender.com'      
 ];
 
 
@@ -32,31 +31,31 @@ app.use(cors({
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve static files from uploads directory
+// Servir archivos estáticos desde el directorio de uploads
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 
 
 
-// Connect to MongoDB
+// Conectar a MongoDB
 mongoose.connect(process.env.MONGO_URI, {
-  dbName: 'nusari' // Explicitly specify the database name
+  dbName: 'nusari' // Especificar explícitamente el nombre de la base de datos
 })
   .then(() => console.log('Connected to MongoDB - Database: nusari'))
   .catch((err) => console.error('MongoDB connection error:', err));
 
-// Routes
+// Rutas
 app.use('/api/auth', require('./routes/auth'));
 app.use('/api/artworks', require('./routes/artworks'));
 app.use('/api/stories', require('./routes/stories'));
 
-// Error handling middleware
+// Manejo de errores
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({ error: 'Something went wrong!' });
 });
 
-// Start server
+// Iniciar servidor
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);

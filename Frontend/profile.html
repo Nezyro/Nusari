@@ -12,7 +12,7 @@
     <script type="module" src="/src/components/navbar.js"></script>
   </head>
   <body class="bg-gray-900 text-white">
-    <!-- Navbar will be inserted here -->
+    <!-- Navbar -->
     <div id="navbar"></div>
 
     <!-- Contenedor general -->
@@ -78,7 +78,7 @@
       import api, { backendUrl } from '/src/config/api.js';
       import { createNavbar } from '/src/components/navbar.js';
 
-      // Insert navbar
+      // Insertar barra de navegación
       const navbar = createNavbar();
       document.getElementById('navbar').appendChild(navbar);
 
@@ -109,13 +109,13 @@
         });
       }
 
-      // Check if user is logged in
+      // Comprobar que el user este loggeado
       const token = localStorage.getItem('token');
       if (!token) {
         window.location.href = '/login.html';
       }
 
-      // Load user data
+      // Cargar user data
       const loadUserData = async () => {
         try {
           const response = await api.get('/auth/me');

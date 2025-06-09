@@ -28,6 +28,21 @@ export function createNavbar() {
       </div>
 
       ${token ? `
+        <!-- Upload dropdown -->
+        <div class="relative" id="uploadDropdown">
+          <button id="uploadBtn" class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded-lg transition-colors duration-300">
+            <i class="fas fa-upload mr-2"></i>Subir
+          </button>
+          <div id="uploadMenu" class="hidden absolute right-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg z-50 divide-y divide-gray-600">
+            <a href="/upload-artwork.html" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
+              <i class="fas fa-image mr-2"></i>Subir imagen
+            </a>
+            <a href="/upload-story.html" class="block px-4 py-2 hover:bg-gray-600 transition-colors duration-300">
+              <i class="fas fa-pen mr-2"></i>Escribir relato
+            </a>
+          </div>
+        </div>
+
         <!-- Perfil (visible cuando hay sesión) -->
         <div class="relative" id="profileDropdown">
           <button id="profileBtn" class="flex items-center space-x-2 focus:outline-none p-2">
@@ -57,7 +72,7 @@ export function createNavbar() {
     </div>
   `;
 
-  // Setup dropdown functionality
+  // Configurar funcionalidad del dropdown de perfil
   const profileBtn = navbar.querySelector('#profileBtn');
   const profileMenu = navbar.querySelector('#profileMenu');
   
@@ -74,7 +89,24 @@ export function createNavbar() {
     });
   }
 
-  // Setup logout functionality
+  // Configurar funcionalidad del dropdown de subida de contenido
+  const uploadBtn = navbar.querySelector('#uploadBtn');
+  const uploadMenu = navbar.querySelector('#uploadMenu');
+
+  if (uploadBtn && uploadMenu) {
+    uploadBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      uploadMenu.classList.toggle('hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!uploadMenu.contains(e.target) && !uploadBtn.contains(e.target)) {
+        uploadMenu.classList.add('hidden');
+      }
+    });
+  }
+
+  // Configurar funcionalidad de cierre de sesión
   const logoutButton = navbar.querySelector('#logoutButton');
   if (logoutButton) {
     logoutButton.addEventListener('click', (e) => {

@@ -3,12 +3,12 @@ const User = require('../models/User');
 const fs = require('fs').promises;
 const path = require('path');
 
-// Register new user
+// Registrar nuevo usuario
 const register = async (req, res) => {
   try {
     const { username, email, password } = req.body;
 
-    // Validate input
+    // Validar entrada
     if (!username || !email || !password) {
       return res.status(400).json({ error: 'Todos los campos son requeridos' });
     }
@@ -17,7 +17,7 @@ const register = async (req, res) => {
       return res.status(400).json({ error: 'La contraseña debe tener al menos 6 caracteres' });
     }
 
-    // Check if user already exists
+    // Verificar si el usuario ya existe
     const existingUser = await User.findOne({ $or: [{ email }, { username }] });
     if (existingUser) {
       if (existingUser.email === email) {
@@ -28,7 +28,7 @@ const register = async (req, res) => {
       }
     }
 
-    // Create new user
+    // Crear nuevo usuario
     const user = new User({
       username,
       email,
@@ -37,7 +37,7 @@ const register = async (req, res) => {
 
     await user.save();
 
-    // Generate token
+    // Generar token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '7d'
     });
@@ -57,7 +57,7 @@ const register = async (req, res) => {
   }
 };
 
-// Login user
+// Iniciar sesión
 const login = async (req, res) => {
   try {
     const { email, password } = req.body;
@@ -67,19 +67,19 @@ const login = async (req, res) => {
       return res.status(400).json({ error: 'Correo electrónico y contraseña son requeridos' });
     }
 
-    // Find user
+    // Buscar usuario
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }
 
-    // Check password
+    // Verificar contraseña
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }
 
-    // Generate token
+    // Generar token
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
       expiresIn: '7d'
     });
@@ -99,7 +99,7 @@ const login = async (req, res) => {
   }
 };
 
-// Get current user
+// Obtener usuario actual
 const getCurrentUser = async (req, res) => {
   try {
     const user = await User.findById(req.user._id).select('-password');
@@ -113,7 +113,7 @@ const getCurrentUser = async (req, res) => {
   }
 };
 
-// Update user profile
+// Actualizar perfil de usuario
 const updateProfile = async (req, res) => {
   try {
     const { username, email, currentPassword, newPassword } = req.body;
@@ -123,7 +123,7 @@ const updateProfile = async (req, res) => {
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    // Update username if provided
+    // Actualizar nombre de usuario si se proporciona
     if (username && username !== user.username) {
       const existingUser = await User.findOne({ username });
       if (existingUser) {
@@ -132,7 +132,7 @@ const updateProfile = async (req, res) => {
       user.username = username;
     }
 
-    // Update email if provided
+    // Actualizar email si se proporciona
     if (email && email !== user.email) {
       const existingUser = await User.findOne({ email });
       if (existingUser) {
@@ -166,7 +166,7 @@ const updateProfile = async (req, res) => {
   }
 };
 
-// Upload profile picture
+// Subir imagen de perfil
 const uploadProfilePicture = async (req, res) => {
   try {
     if (!req.file) {
@@ -175,12 +175,12 @@ const uploadProfilePicture = async (req, res) => {
 
     const user = await User.findById(req.user._id);
     if (!user) {
-      // Delete the uploaded file if user not found
+      // Eliminar el archivo subido si el usuario no se encuentra
       await fs.unlink(req.file.path);
       return res.status(404).json({ error: 'Usuario no encontrado' });
     }
 
-    // Delete old profile picture if exists
+    // Eliminar imagen de perfil anterior si existe
     if (user.profileImage && user.profileImage !== 'default-profile.jpg') {
       const oldImagePath = path.join(__dirname, '..', 'uploads', user.profileImage);
       try {
@@ -191,7 +191,7 @@ const uploadProfilePicture = async (req, res) => {
       }
     }
 
-    // Update user profile image
+    // Actualizar imagen de perfil
     user.profileImage = `perfiles/${req.file.filename}`;
     await user.save();
 

@@ -4,11 +4,11 @@ const { register, login, getCurrentUser, updateProfile, uploadProfilePicture } =
 const auth = require('../middlewares/auth');
 const upload = require('../middlewares/upload');
 
-// Public routes
+// Rutas públicas
 router.post('/register', register);
 router.post('/login', login);
 
-// Protected routes
+// Rutas protegidas
 router.get('/me', auth, getCurrentUser);
 router.put('/profile', auth, updateProfile);
 router.post('/profile/picture', auth, upload.single('profilePicture'), uploadProfilePicture);

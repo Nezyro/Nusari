@@ -4,9 +4,7 @@ const {
   createArtwork, 
   getArtworks, 
   getArtwork, 
-  getUserArtworks, 
-  updateArtwork, 
-  deleteArtwork 
+  getUserArtworks
 } = require('../controllers/artworkController');
 const auth = require('../middlewares/auth');
 const multer = require('multer');
@@ -46,7 +44,5 @@ router.get('/:id', getArtwork);
 // Rutas protegidas
 router.post('/', auth, upload.single('image'), createArtwork);
 router.get('/mine', auth, getUserArtworks);
-router.put('/:id', auth, updateArtwork);
-router.delete('/:id', auth, deleteArtwork);
 
 module.exports = router;

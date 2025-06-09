@@ -1,6 +1,6 @@
 const Story = require('../models/Story');
 
-// Create new story
+// Crear nueva historia
 const createStory = async (req, res) => {
   try {
     const { title, content, tags } = req.body;
@@ -18,7 +18,7 @@ const createStory = async (req, res) => {
   }
 };
 
-// Get all stories
+// Obtener todas las historias
 const getStories = async (req, res) => {
   try {
     const stories = await Story.find()
@@ -30,7 +30,7 @@ const getStories = async (req, res) => {
   }
 };
 
-// Get single story
+// Obtener una historia específica
 const getStory = async (req, res) => {
   try {
     const story = await Story.findById(req.params.id)
@@ -38,16 +38,16 @@ const getStory = async (req, res) => {
       .populate('comments.user', 'username profileImage');
     
     if (!story) {
-      return res.status(404).json({ message: 'Story not found' });
+      return res.status(404).json({ message: 'Historia no encontrada' });
     }
     
     res.json(story);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching story', error: error.message });
+    res.status(500).json({ message: 'Error al obtener la historia', error: error.message });
   }
 };
 
-// Get user's stories
+// Obtener historias de un usuario
 const getUserStories = async (req, res) => {
   try {
     console.log('Buscando historias del usuario:', req.user._id);
@@ -68,56 +68,10 @@ const getUserStories = async (req, res) => {
   }
 };
 
-// Update story
-const updateStory = async (req, res) => {
-  try {
-    const story = await Story.findById(req.params.id);
-    
-    if (!story) {
-      return res.status(404).json({ message: 'Story not found' });
-    }
-
-    if (story.author.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'Not authorized' });
-    }
-
-    const updatedStory = await Story.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      { new: true }
-    ).populate('author', 'username profileImage');
-
-    res.json(updatedStory);
-  } catch (error) {
-    res.status(500).json({ message: 'Error updating story', error: error.message });
-  }
-};
-
-// Delete story
-const deleteStory = async (req, res) => {
-  try {
-    const story = await Story.findById(req.params.id);
-    
-    if (!story) {
-      return res.status(404).json({ message: 'Story not found' });
-    }
-
-    if (story.author.toString() !== req.user._id.toString()) {
-      return res.status(403).json({ message: 'Not authorized' });
-    }
-
-    await story.deleteOne();
-    res.json({ message: 'Story deleted' });
-  } catch (error) {
-    res.status(500).json({ message: 'Error deleting story', error: error.message });
-  }
-};
 
 module.exports = {
   createStory,
   getStories,
   getStory,
-  getUserStories,
-  updateStory,
-  deleteStory
+  getUserStories
 }; 
