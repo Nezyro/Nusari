@@ -34,8 +34,7 @@ const getStories = async (req, res) => {
 const getStory = async (req, res) => {
   try {
     const story = await Story.findById(req.params.id)
-      .populate('author', 'username profileImage')
-      .populate('comments.user', 'username profileImage');
+      .populate('author', 'username profileImage');
     
     if (!story) {
       return res.status(404).json({ message: 'Historia no encontrada' });
